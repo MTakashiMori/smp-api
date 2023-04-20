@@ -1,0 +1,25 @@
+version: '3.5'
+services:
+  web:
+    container_name: smp_api
+    build:
+      context: .
+      target: web
+    working_dir: /var/www/html/app
+    ports:
+      - "8000:80"
+    command: php artisan serve --host=0.0.0.0 --port=80
+#    command: /bin/sh
+    volumes:
+      - .:/var/www/html/app
+    entrypoint:  [
+      "/bin/sh",
+      "/var/www/html/app/entrypoint.sh"
+    ]
+    tty: true
+    networks:
+      main:
+        aliases:
+          - web
+networks:
+  main:
