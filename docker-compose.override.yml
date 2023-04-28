@@ -1,0 +1,15 @@
+version: '3.5'
+services:
+  api:
+    ports:
+      - "8001:80"
+  db:
+    ports:
+      - "3306:3306"
+    volumes:
+      - /var/www/html/db/smp-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: smp-db
+      MYSQL_USER: peUser
+      MYSQL_PASSWORD: peUser

@@ -6,15 +6,17 @@ composer install --ignore-platform-reqs --verbose
 
 echo "************** All dependencies has been installed! **************"
 
+sleep 2
+
 if [[ -e .env ]]
 then
     echo "************** Refreshing database **************"
-#    php artisan migrate:refresh --seed
+    php artisan migrate:refresh --seed
 else
     echo "************** Copying .env **************"
-#    cp .env.example .env
+    cp .env.example .env
     echo "************** Refreshing database **************"
-#    php artisan migrate:refresh --seed
+    php artisan migrate:refresh --seed
 fi
 
 echo "************** Generating key and refreshing  **************"

@@ -1,0 +1,15 @@
+version: '3.5'
+services:
+  web:
+    ports:
+      - <PORT_API>:80"
+  db:
+    ports:
+      - "<PORT_ROOT>:3306"
+    volumes:
+      - <YOUR_PATH>:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: shelter-db
+      MYSQL_USER: <USER>
+      MYSQL_PASSWORD: <PASSWORD>

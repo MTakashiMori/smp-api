@@ -1,13 +1,11 @@
 version: '3.5'
 services:
-  web:
+  api:
     container_name: smp_api
     build:
       context: .
       target: web
     working_dir: /var/www/html/app
-    ports:
-      - "8000:80"
     command: php artisan serve --host=0.0.0.0 --port=80
 #    command: /bin/sh
     volumes:
@@ -20,6 +18,13 @@ services:
     networks:
       main:
         aliases:
-          - web
+          - api
+  db:
+      container_name: smp_db
+      image: mariadb:10.4
+      networks:
+          main:
+              aliases:
+                  - db
 networks:
   main:
