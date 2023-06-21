@@ -10,7 +10,7 @@
     'locale' => 'en',
     'fallback_locale' => 'en',
     'faker_locale' => 'en_US',
-    'key' => 'base64:9XOip/WxmHJnmzrV+l6/br8m+s2XoYjpzM18DRTuVmo=',
+    'key' => 'base64:TNWd7slVnvp+3dTXRE6PSccEmmrmd5zvRZHfnjqzUog=',
     'cipher' => 'AES-256-CBC',
     'maintenance' => 
     array (
@@ -93,7 +93,7 @@
   array (
     'defaults' => 
     array (
-      'guard' => 'web',
+      'guard' => 'api',
       'passwords' => 'users',
     ),
     'guards' => 
@@ -101,6 +101,11 @@
       'web' => 
       array (
         'driver' => 'session',
+        'provider' => 'users',
+      ),
+      'api' => 
+      array (
+        'driver' => 'jwt',
         'provider' => 'users',
       ),
       'sanctum' => 
@@ -410,6 +415,43 @@
       'memory' => 65536,
       'threads' => 1,
       'time' => 4,
+    ),
+  ),
+  'jwt' => 
+  array (
+    'secret' => 'G8QSKTxgPa7Se6eBZ5K5HRspUPfPxkoCYFOiV4RwBqZEZxngJbL6XcESkjztw6hR',
+    'keys' => 
+    array (
+      'public' => NULL,
+      'private' => NULL,
+      'passphrase' => NULL,
+    ),
+    'ttl' => 60,
+    'refresh_ttl' => 20160,
+    'algo' => 'HS256',
+    'required_claims' => 
+    array (
+      0 => 'iss',
+      1 => 'iat',
+      2 => 'exp',
+      3 => 'nbf',
+      4 => 'sub',
+      5 => 'jti',
+    ),
+    'persistent_claims' => 
+    array (
+    ),
+    'lock_subject' => true,
+    'leeway' => 0,
+    'blacklist_enabled' => true,
+    'blacklist_grace_period' => 0,
+    'show_black_list_exception' => true,
+    'decrypt_cookies' => false,
+    'providers' => 
+    array (
+      'jwt' => 'PHPOpenSourceSaver\\JWTAuth\\Providers\\JWT\\Lcobucci',
+      'auth' => 'PHPOpenSourceSaver\\JWTAuth\\Providers\\Auth\\Illuminate',
+      'storage' => 'PHPOpenSourceSaver\\JWTAuth\\Providers\\Storage\\Illuminate',
     ),
   ),
   'logging' => 
