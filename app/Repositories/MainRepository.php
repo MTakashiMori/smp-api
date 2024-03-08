@@ -5,23 +5,23 @@ namespace App\Repositories;
 use App\Models\MainModel;
 use Illuminate\Database\Eloquent\Collection;
 
-/**
- *
- */
 class MainRepository
 {
 
     /**
      * @var MainModel
      */
-    private $model;
+    protected MainModel $model;
+
+    protected $relationship;
 
     /**
      * @param MainModel $model
      */
-    public function __construct(MainModel $model)
+    public function __construct(MainModel $model, $relationship = [])
     {
         $this->model = $model;
+        $this->relationship = [];
     }
 
 

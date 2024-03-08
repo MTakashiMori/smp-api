@@ -1,4 +1,4 @@
-FROM alpine:latest as web
+FROM alpine:3.18 as web
 
 # Install required system packages
 RUN apk add --no-cache nginx \
@@ -41,6 +41,8 @@ RUN apk add --no-cache php81 \
 #RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS \
 #    && pecl install xdebug \
 #    && docker-php-ext-enable xdebug
+
+RUN php -v
 
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer

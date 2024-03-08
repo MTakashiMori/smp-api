@@ -6,26 +6,17 @@ use App\Constants\ResponseMessages;
 use App\Services\MainService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use stdClass;
 
-/**
- *
- */
 class MainController extends Controller
 {
 
     /**
      * @var MainService
      */
-    private $service;
+    protected MainService $service;
 
-    /**
-     * @var array
-     */
-    private array $response = [
-        'data' => null,
-        'message' => ResponseMessages::SUCCESS,
-        'code' => 200
-    ];
+    public stdClass $response;
 
     /**
      * @param MainService $service
@@ -33,6 +24,11 @@ class MainController extends Controller
     public function __construct(MainService $service)
     {
         $this->service = $service;
+        $this->response = (object)[
+            'data' => null,
+            'message' => ResponseMessages::SUCCESS,
+            'code' => 200
+        ];
     }
 
     /**
@@ -41,31 +37,30 @@ class MainController extends Controller
      */
     public function index(Request $request)
     {
-        $response = $this->response;
-
-        $response['data'] = $this->service->index($request->all());
-
-        return response()->json([
-            'message' => $response['message'],
-            'data' => $response['data']
-        ], $response['code']);
-    }
-
-    /**
-     * @param $request
-     * @return JsonResponse
-     */
-    public function store($request)
-    {
-        $response = $this->response;
-
-        $response['data'] = $this->service->store($request->all());
+        $this->response->messsage = ResponseMessages::SUCCESS;
+        $this->response->data = $this->service->index($request->all());
 
         return response()->json([
-            'message' => $response['message'],
-            'data' => $response['data']
-        ], $response['code']);
+            'message' => $this->response->message,
+            'data' => $this->response->data
+        ], $this->response->code);
     }
+
+//    /**
+//     * @param $request
+//     * @return JsonResponse
+//     */
+//    public function store($request)
+//    {
+//        $response = $this->response;
+//
+//        $response['data'] = $this->service->store($request->all());
+//
+//        return response()->json([
+//            'message' => $response['message'],
+//            'data' => $response['data']
+//        ], $response['code']);
+//    }
 
     /**
      * @param $id
@@ -73,32 +68,31 @@ class MainController extends Controller
      */
     public function show($id)
     {
-        $response = $this->response;
-
-        $response['data'] = $this->service->index($id);
-
-        return response()->json([
-            'message' => $response['message'],
-            'data' => $response['data']
-        ], $response['code']);
-    }
-
-    /**
-     * @param $id
-     * @param $request
-     * @return JsonResponse
-     */
-    public function update($id, $request)
-    {
-        $response = $this->response;
-
-        $response['data'] = $this->service->update($id, $request->all());
+        $this->response->messsage = ResponseMessages::SUCCESS;
+        $this->response->data = $this->service->show($id);
 
         return response()->json([
-            'message' => $response['message'],
-            'data' => $response['data']
-        ], $response['code']);
+            'message' => $this->response->message,
+            'data' => $this->response->data
+        ], $this->response->code);
     }
+
+//    /**
+//     * @param $id
+//     * @param $request
+//     * @return JsonResponse
+//     */
+//    public function update($id, $request)
+//    {
+//        $response = $this->response;
+//
+//        $response['data'] = $this->service->update($id, $request->all());
+//
+//        return response()->json([
+//            'message' => $response['message'],
+//            'data' => $response['data']
+//        ], $response['code']);
+//    }
 
     /**
      * @param $id
@@ -106,14 +100,13 @@ class MainController extends Controller
      */
     public function destroy($id)
     {
-        $response = $this->response;
-
-        $response['data'] = $this->service->destroy($id);
+        $this->response->messsage = ResponseMessages::SUCCESS;
+        $this->response->data = $this->service->destroy($id);
 
         return response()->json([
-            'message' => $response['message'],
-            'data' => $response['data']
-        ], $response['code']);
+            'message' => $this->response->message,
+            'data' => $this->response->data
+        ], $this->response->code);
     }
 
 }

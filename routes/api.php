@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PartyController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SponsorController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,6 +30,8 @@ Route::prefix('v1')->group(function () {
         Route::post('refresh', 'refresh');
     });
 
-    Route::resource('product', 'ProductController');
+    Route::resource('product', ProductController::class);
+    Route::resource('party', PartyController::class);
+    Route::resource('sponsor', SponsorController::class);
 
 });

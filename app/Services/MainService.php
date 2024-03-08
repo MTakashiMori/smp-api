@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 class MainService
 {
 
-    private $repository;
+    protected MainRepository $repository;
 
     /**
      * @param MainRepository $repository
@@ -41,7 +41,7 @@ class MainService
      */
     public function show($id)
     {
-        return $this->repository->find($id);
+        return $this->repository->show($id);
     }
 
     /**
@@ -51,7 +51,7 @@ class MainService
      */
     public function update($id, $data)
     {
-        return $this->repository->find($id)->update($data);
+        return $this->repository->show($id)->update($data);
     }
 
     /**
