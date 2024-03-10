@@ -3,9 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class Financial extends Model
+class Financial extends MainModel
 {
     use HasFactory;
+
+    public function transactions()
+    {
+        return $this->hasMany(Transactions::class);
+    }
 }

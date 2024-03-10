@@ -2,9 +2,81 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\SponsorService;
 use Illuminate\Http\Request;
 
-class SponsorController extends Controller
+class SponsorController extends MainController
 {
-    //
+    /**
+     * @param PartyService $service
+     */
+    public function __construct(SponsorService $service)
+    {
+        $this->service = $service;
+        $this->response = (object)[
+            'data' => null,
+            'message' => ResponseMessages::SUCCESS,
+            'code' => 200
+        ];
+    }
+
+    /**
+     * @param PartyRequest $request
+     * @return JsonResponse
+     */
+    public function store(PartyRequest $request): JsonResponse
+    {
+        DB::beginTransaction();
+        try {
+            $cave = $this->service->store($request->all());
+            $this->response->message = ResponseMessages::CREATED;
+        } catch (Exception $e) {
+            $this->response->message = ResponseMessages::ERROR;
+            $this->response->data = $e->getMessage();
+            $this->response->code = $e->getCode();
+
+            DB::rollback();
+            return response()->json([
+                'message' => $this->response->message,
+                'data' => $this->response->data
+            ], $this->response->code);
+        }
+
+        DB::commit();
+        return response()->json([
+            'message' => $this->response->message,
+            'data' => $cave
+        ], $this->response->code);
+    }
+
+    /**
+     * @param PartyRequest $request
+     * @param $id
+     * @return JsonResponse
+     */
+    public function update(PartyRequest $request, $id): JsonResponse
+    {
+        DB::beginTransaction();
+        try {
+            $cave = $this->service->update($request->all(), $id);
+            $this->response->message = ResponseMessages::UPDATED;
+        } catch (Exception $e) {
+            $this->response->message = ResponseMessages::ERROR;
+            $this->response->data = $e->getMessage();
+            $this->response->code = $e->getCode();
+
+            DB::rollback();
+            return response()->json([
+                'message' => $this->response->message,
+                'data' => $this->response->data
+            ], $this->response->code);
+        }
+
+        DB::commit();
+        return response()->json([
+            'message' => $this->response->message,
+            'data' => $cave
+        ], $this->response->code);
+    }
+
 }

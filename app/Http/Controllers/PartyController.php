@@ -84,6 +84,4 @@ class PartyController extends MainController
         ], $this->response->code);
     }
 
-
-
 }
