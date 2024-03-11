@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class TransactionsType extends MainModel
 {
     use HasFactory;
+
+    protected $guarded = [];
 }

@@ -10,6 +10,8 @@ class Transactions extends MainModel
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function financial(): BelongsTo
     {
         return $this->belongsTo(Financial::class);

@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\ResponseMessages;
+use App\Http\Requests\Sponsor\SponsorRequest;
 use App\Services\SponsorService;
-use Illuminate\Http\Request;
+use Exception;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 
 class SponsorController extends MainController
 {
     /**
-     * @param PartyService $service
+     * @param SponsorService $service
      */
     public function __construct(SponsorService $service)
     {
@@ -21,16 +25,17 @@ class SponsorController extends MainController
     }
 
     /**
-     * @param PartyRequest $request
+     * @param SponsorRequest $request
      * @return JsonResponse
      */
-    public function store(PartyRequest $request): JsonResponse
+    public function store(SponsorRequest $request): JsonResponse
     {
         DB::beginTransaction();
         try {
             $cave = $this->service->store($request->all());
             $this->response->message = ResponseMessages::CREATED;
         } catch (Exception $e) {
+            dd($e);
             $this->response->message = ResponseMessages::ERROR;
             $this->response->data = $e->getMessage();
             $this->response->code = $e->getCode();
@@ -50,11 +55,11 @@ class SponsorController extends MainController
     }
 
     /**
-     * @param PartyRequest $request
+     * @param SponsorRequest $request
      * @param $id
      * @return JsonResponse
      */
-    public function update(PartyRequest $request, $id): JsonResponse
+    public function update(SponsorRequest $request, $id): JsonResponse
     {
         DB::beginTransaction();
         try {

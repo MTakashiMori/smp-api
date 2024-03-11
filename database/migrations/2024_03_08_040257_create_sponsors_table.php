@@ -14,7 +14,11 @@ return new class extends Migration
         Schema::create('sponsors', function (Blueprint $table) {
             $table->id();
 
-            $table->string('name')->comment('Party name');
+            $table->string('name', 100)->comment('Sponsor name');
+            $table->string('telephone', 20)->comment('Telephone name');
+            $table->string('reference', 20)->comment('Reference name');
+            $table->string('address',100)->comment('Address name');
+
             $table->softDeletes();
 
             $table->timestamps();

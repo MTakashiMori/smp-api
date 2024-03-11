@@ -9,6 +9,8 @@ class Product extends MainModel
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function type(): BelongsTo
     {
         return $this->belongsTo(ProductType::class);
