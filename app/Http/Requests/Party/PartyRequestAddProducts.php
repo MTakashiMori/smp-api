@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class PartyRequest extends FormRequest
+class PartyRequestAddProducts extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,11 +25,8 @@ class PartyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'required',
-            'address' => 'required',
-            'reference' => 'required',
+            'items' => 'required',
+            'party_menu_id' => 'required',
         ];
     }
 
@@ -41,11 +38,8 @@ class PartyRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required' => 'name title is required',
-            'start_date.required' => 'A start date is required',
-            'end_date.required' => 'A end date is required',
-            'address.required' => 'A address is required',
-            'reference.required' => 'A reference is required',
+            'items.required' => 'The items is required',
+            'party_menu_id.required' => 'A party menu id is required',
         ];
     }
 

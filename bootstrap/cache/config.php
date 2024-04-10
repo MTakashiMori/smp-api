@@ -10,11 +10,7 @@
     'locale' => 'en',
     'fallback_locale' => 'en',
     'faker_locale' => 'en_US',
-<<<<<<< HEAD
-    'key' => 'base64:Rk033EMbXg3hm41BgpemUA79XPIVYbLvGUItAzCGnOE=',
-=======
-    'key' => 'base64:Q90KAQaXbDvNGV3aRCb/RkSjm581xGoHiGzVpqVfV4I=',
->>>>>>> 7697ef8bfebcd35431649573b32fa369a71e60e9
+    'key' => 'base64:6ENJu8R6Tq8t2P06ViwB/lxz588a6F2kAmG7fPcqpHI=',
     'cipher' => 'AES-256-CBC',
     'maintenance' => 
     array (
@@ -423,11 +419,7 @@
   ),
   'jwt' => 
   array (
-<<<<<<< HEAD
     'secret' => 'G8QSKTxgPa7Se6eBZ5K5HRspUPfPxkoCYFOiV4RwBqZEZxngJbL6XcESkjztw6hR',
-=======
-    'secret' => 'FljcIRFWAfieyG6GVYzSGYC1GHfE4ydah4sUg4JTW54zwgHcUdEJTsh6xOAhgKPl',
->>>>>>> 7697ef8bfebcd35431649573b32fa369a71e60e9
     'keys' => 
     array (
       'public' => NULL,
@@ -755,7 +747,7 @@
     array (
       0 => '/var/www/html/app/resources/views',
     ),
-    'compiled' => '/var/www/html/app/storage/framework/views',
+    'compiled' => false,
   ),
   'flare' => 
   array (

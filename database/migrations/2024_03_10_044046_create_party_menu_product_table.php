@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('financials', function (Blueprint $table) {
+        Schema::create('party_menu_products', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('party_id')->constrained();
+            $table->foreignId('party_menu_id')->constrained();
+            $table->foreignId('product_id')->constrained();
+            $table->double('price', 6, 2);
 
             $table->timestamps();
         });
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('financials');
+        Schema::dropIfExists('party_menu_products');
     }
 };

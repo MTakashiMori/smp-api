@@ -21,16 +21,23 @@ class MainRepository
     public function __construct(MainModel $model, $relationship = [])
     {
         $this->model = $model;
-        $this->relationship = [];
+        $this->relationship = $relationship;
     }
 
 
     /**
      * @return Collection
      */
-    public function index()
+    public function index($request = null)
     {
-        return $this->model->all();
+        $data = $this->model->with($this->relationship ?: []);
+
+        if($request)
+        {
+            $data->whereModelLike($request);
+        }
+
+        return $data->get();
     }
 
     /**

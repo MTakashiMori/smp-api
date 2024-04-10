@@ -1,16 +1,14 @@
 <?php
 
-<<<<<<< HEAD
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PartyController;
+use App\Http\Controllers\PartyMenuController;
+use App\Http\Controllers\PartyMenuProductController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SponsorController;
-=======
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
->>>>>>> 7697ef8bfebcd35431649573b32fa369a71e60e9
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,13 +34,13 @@ Route::prefix('v1')->group(function () {
         Route::post('refresh', 'refresh');
     });
 
-<<<<<<< HEAD
     Route::resource('product', ProductController::class);
     Route::resource('party', PartyController::class);
+    Route::post('party-menu/add-products', [PartyMenuController::class, 'addProducts']);
+    Route::resource('party-menu', PartyMenuController::class);
+    Route::resource('party-menu-products', PartyMenuProductController::class);
     Route::resource('sponsor', SponsorController::class);
-=======
     Route::resource('user', UserController::class);
     Route::resource('role', RoleController::class);
->>>>>>> 7697ef8bfebcd35431649573b32fa369a71e60e9
 
 });

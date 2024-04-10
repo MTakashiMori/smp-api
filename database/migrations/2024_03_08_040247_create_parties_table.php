@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('name')->comment('Party name');
             $table->date('start_date')->comment('Party start date');
             $table->date('end_date')->comment('Party end date');
+            $table->string('reference')->comment('Party reference name');
+            $table->string('address')->comment('Party address');
 
             $table->softDeletes();
 

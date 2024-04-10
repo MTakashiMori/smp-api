@@ -12,6 +12,8 @@ class Party extends MainModel
 
     protected $guarded = [];
 
+    protected $appends = ['date'];
+
     public function financial(): HasMany
     {
         return $this->hasMany(Financial::class);
@@ -20,5 +22,15 @@ class Party extends MainModel
     public function sponsors(): HasManyThrough
     {
         return $this->hasManyThrough(Sponsor::class, PartySponsor::class);
+    }
+
+    public function partyMenu()
+    {
+        return $this->hasMany(PartyMenu::class);
+    }
+
+    public function getDateAttribute()
+    {
+        return [$this->start_date, $this->end_date];
     }
 }
