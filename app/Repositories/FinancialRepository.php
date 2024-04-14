@@ -10,5 +10,8 @@ class FinancialRepository extends MainRepository
     public function __construct(Financial $model)
     {
         $this->model = $model;
+        $this->relationship = [
+            'party'
+        ];
     }
 }

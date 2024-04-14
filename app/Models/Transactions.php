@@ -26,4 +26,9 @@ class Transactions extends MainModel
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function categories():BelongsTo
+    {
+        return $this->belongsTo(FinancialCategories::class, 'financial_categories_id');
+    }
 }

@@ -10,5 +10,8 @@ class TransactionsRepository extends MainRepository
     public function __construct(Transactions $model)
     {
         $this->model = $model;
+        $this->relationship = [
+            'categories'
+        ];
     }
 }

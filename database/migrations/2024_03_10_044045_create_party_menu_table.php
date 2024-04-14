@@ -16,6 +16,8 @@ return new class extends Migration
 
             $table->foreignId('party_id')->constrained();
 
+            $table->string('label')->default('Geral')->comment('Menu label');
+
             $table->timestamps();
         });
     }

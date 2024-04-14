@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\MainModel;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 
 class MainRepository
 {
@@ -75,6 +76,15 @@ class MainRepository
     public function destroy($id)
     {
        return $this->model->delete($id);
+    }
+
+    /**
+     * @param $sql
+     * @return array
+     */
+    public function runRawSql($sql)
+    {
+        return DB::select($sql);
     }
 
 }

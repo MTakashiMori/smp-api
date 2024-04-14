@@ -1,5 +1,6 @@
 <?php
 
+use App\Constants\FinancialConstants;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,6 +16,8 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('party_id')->constrained();
+
+            $table->string('status')->default(FinancialConstants::OPEN)->comment('Status of financial book');
 
             $table->timestamps();
         });

@@ -14,4 +14,9 @@ class Financial extends MainModel
     {
         return $this->hasMany(Transactions::class);
     }
+
+    public function party()
+    {
+        return $this->belongsTo(Party::class);
+    }
 }

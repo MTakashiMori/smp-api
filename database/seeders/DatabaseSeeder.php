@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Product;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -17,14 +16,12 @@ class DatabaseSeeder extends Seeder
 
          $this->call([
              RoleSeeder::class,
-             ProductSeeder::class
+             ProductSeeder::class,
+             PartySeeder::class,
+             PartyMenuSeeder::class,
+             FinancialSeeder::class,
+             FinancialCategoriesSeeder::class,
+             TransactionSeeder::class
          ]);
-
-
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
     }
 }

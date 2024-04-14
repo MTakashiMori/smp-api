@@ -1,12 +1,14 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FinancialController;
 use App\Http\Controllers\PartyController;
 use App\Http\Controllers\PartyMenuController;
 use App\Http\Controllers\PartyMenuProductController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SponsorController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\TransactionsController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -42,5 +44,8 @@ Route::prefix('v1')->group(function () {
     Route::resource('sponsor', SponsorController::class);
     Route::resource('user', UserController::class);
     Route::resource('role', RoleController::class);
+    Route::resource('financial', FinancialController::class);
+    Route::get('transactions/report', [TransactionsController::class, 'getTransactionReport']);
+    Route::resource('transactions', TransactionsController::class);
 
 });
