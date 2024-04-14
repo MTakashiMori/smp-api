@@ -8,6 +8,11 @@ class PartyMenuProducts extends MainModel
 {
     use HasFactory;
 
+    protected $keyType = 'string';
+
+    public $incrementing = false;
+
+
     protected $guarded = [];
 
     public function product()

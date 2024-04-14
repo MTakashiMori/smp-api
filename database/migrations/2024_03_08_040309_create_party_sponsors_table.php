@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('party_sponsors', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
 
-            $table->foreignId('party_id')->constrained();
-            $table->foreignId('sponsor_id')->constrained();
+            $table->foreignUuid('party_id')->references('id')->on('parties');
+            $table->foreignUuid('sponsor_id')->references('id')->on('sponsors');
 
             $table->softDeletes();
 

@@ -13,15 +13,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('transactions', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
 
-            $table->foreignId('financial_id')->constrained();
-            $table->foreignId('financial_categories_id')->constrained();
+            $table->foreignUuid('financial_id')->references('id')->on('financials');
+            $table->foreignUuid('financial_categories_id')->references('id')->on('financial_categories');
             $table->string('name')->comment('Name of transaction');
             $table->string('description')->nullable()->comment('Description of transaction');
             $table->double('value', 6, 2)->comment('Transaction value');
             $table->string('status')->default(TransactionsStatusConstants::ON_REVIEW)->comment('Transaction status');
 
+            $table->softDeletes();
             $table->timestamps();
         });
     }

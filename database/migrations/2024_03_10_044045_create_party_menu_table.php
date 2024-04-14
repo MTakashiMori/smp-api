@@ -12,11 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('party_menus', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
 
-            $table->foreignId('party_id')->constrained();
+            $table->foreignUuid('party_id')->references('id')->on('parties');
 
             $table->string('label')->default('Geral')->comment('Menu label');
+
+            $table->softDeletes();
 
             $table->timestamps();
         });

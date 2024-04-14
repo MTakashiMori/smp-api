@@ -13,10 +13,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('financial_categories', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
 
-            $table->foreignId('financial_id')->constrained();
+            $table->foreignUuid('financial_id')->references('id')->on('financials');
             $table->string('name');
+
+            $table->softDeletes();
 
             $table->timestamps();
         });

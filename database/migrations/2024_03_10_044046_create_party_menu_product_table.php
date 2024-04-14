@@ -12,12 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('party_menu_products', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
 
-            $table->foreignId('party_menu_id')->constrained();
-            $table->foreignId('product_id')->constrained();
+            $table->foreignUuid('party_menu_id')->references('id')->on('party_menus');
+            $table->foreignUuid('product_id')->references('id')->on('products');
             $table->double('price', 6, 2);
             $table->string('group')->default('geral')->comment('Party Menu group');
+
+            $table->softDeletes();
 
             $table->timestamps();
         });

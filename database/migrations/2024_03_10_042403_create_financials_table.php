@@ -13,11 +13,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('financials', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
 
-            $table->foreignId('party_id')->constrained();
+            $table->foreignUuid('party_id')->references('id')->on('parties');
 
             $table->string('status')->default(FinancialConstants::OPEN)->comment('Status of financial book');
+
+            $table->softDeletes();
 
             $table->timestamps();
         });
