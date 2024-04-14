@@ -10,7 +10,7 @@
     'locale' => 'en',
     'fallback_locale' => 'en',
     'faker_locale' => 'en_US',
-    'key' => 'base64:skCAtUhvNZVk/RiEBq6kpXeo/qOhVVqBPohPRfpsspQ=',
+    'key' => 'base64:l0c/CTL069nw0See8uz2pWoURwbMjUAhco5VoDu8JvU=',
     'cipher' => 'AES-256-CBC',
     'maintenance' => 
     array (
@@ -32,10 +32,10 @@
       11 => 'Illuminate\\Mail\\MailServiceProvider',
       12 => 'Illuminate\\Notifications\\NotificationServiceProvider',
       13 => 'Illuminate\\Pagination\\PaginationServiceProvider',
-      14 => 'Illuminate\\Pipeline\\PipelineServiceProvider',
-      15 => 'Illuminate\\Queue\\QueueServiceProvider',
-      16 => 'Illuminate\\Redis\\RedisServiceProvider',
-      17 => 'Illuminate\\Auth\\Passwords\\PasswordResetServiceProvider',
+      14 => 'Illuminate\\Auth\\Passwords\\PasswordResetServiceProvider',
+      15 => 'Illuminate\\Pipeline\\PipelineServiceProvider',
+      16 => 'Illuminate\\Queue\\QueueServiceProvider',
+      17 => 'Illuminate\\Redis\\RedisServiceProvider',
       18 => 'Illuminate\\Session\\SessionServiceProvider',
       19 => 'Illuminate\\Translation\\TranslationServiceProvider',
       20 => 'Illuminate\\Validation\\ValidationServiceProvider',
@@ -44,6 +44,7 @@
       23 => 'App\\Providers\\AuthServiceProvider',
       24 => 'App\\Providers\\EventServiceProvider',
       25 => 'App\\Providers\\RouteServiceProvider',
+      26 => 'Tymon\\JWTAuth\\Providers\\LaravelServiceProvider',
     ),
     'aliases' => 
     array (
@@ -71,6 +72,7 @@
       'Log' => 'Illuminate\\Support\\Facades\\Log',
       'Mail' => 'Illuminate\\Support\\Facades\\Mail',
       'Notification' => 'Illuminate\\Support\\Facades\\Notification',
+      'Number' => 'Illuminate\\Support\\Number',
       'Password' => 'Illuminate\\Support\\Facades\\Password',
       'Process' => 'Illuminate\\Support\\Facades\\Process',
       'Queue' => 'Illuminate\\Support\\Facades\\Queue',
@@ -419,7 +421,7 @@
   ),
   'jwt' => 
   array (
-    'secret' => 'G8QSKTxgPa7Se6eBZ5K5HRspUPfPxkoCYFOiV4RwBqZEZxngJbL6XcESkjztw6hR',
+    'secret' => 'isDkyPjquJ6vK2hmY60AAePQ2ubXHQBAbGHOI5F5almjCP90U1KX1rPlrGtfi1Hp',
     'keys' => 
     array (
       'public' => NULL,
@@ -445,13 +447,12 @@
     'leeway' => 0,
     'blacklist_enabled' => true,
     'blacklist_grace_period' => 0,
-    'show_black_list_exception' => true,
     'decrypt_cookies' => false,
     'providers' => 
     array (
-      'jwt' => 'PHPOpenSourceSaver\\JWTAuth\\Providers\\JWT\\Lcobucci',
-      'auth' => 'PHPOpenSourceSaver\\JWTAuth\\Providers\\Auth\\Illuminate',
-      'storage' => 'PHPOpenSourceSaver\\JWTAuth\\Providers\\Storage\\Illuminate',
+      'jwt' => 'Tymon\\JWTAuth\\Providers\\JWT\\Lcobucci',
+      'auth' => 'Tymon\\JWTAuth\\Providers\\Auth\\Illuminate',
+      'storage' => 'Tymon\\JWTAuth\\Providers\\Storage\\Illuminate',
     ),
   ),
   'logging' => 
@@ -693,6 +694,7 @@
       0 => 'web',
     ),
     'expiration' => NULL,
+    'token_prefix' => '',
     'middleware' => 
     array (
       'verify_csrf_token' => 'App\\Http\\Middleware\\VerifyCsrfToken',
@@ -773,6 +775,7 @@
       array (
         'max_chained_job_reporting_depth' => 5,
       ),
+      6 => 'Spatie\\LaravelIgnition\\FlareMiddleware\\AddContext',
       'Spatie\\FlareClient\\FlareMiddleware\\CensorRequestBodyFields' => 
       array (
         'censor_fields' => 
@@ -786,6 +789,11 @@
         'headers' => 
         array (
           0 => 'API-KEY',
+          1 => 'Authorization',
+          2 => 'Cookie',
+          3 => 'Set-Cookie',
+          4 => 'X-CSRF-TOKEN',
+          5 => 'X-XSRF-TOKEN',
         ),
       ),
     ),
@@ -818,6 +826,9 @@
       16 => 'Spatie\\LaravelIgnition\\Solutions\\SolutionProviders\\UndefinedViewVariableSolutionProvider',
       17 => 'Spatie\\LaravelIgnition\\Solutions\\SolutionProviders\\GenericLaravelExceptionSolutionProvider',
       18 => 'Spatie\\LaravelIgnition\\Solutions\\SolutionProviders\\OpenAiSolutionProvider',
+      19 => 'Spatie\\LaravelIgnition\\Solutions\\SolutionProviders\\SailNetworkSolutionProvider',
+      20 => 'Spatie\\LaravelIgnition\\Solutions\\SolutionProviders\\UnknownMysql8CollationSolutionProvider',
+      21 => 'Spatie\\LaravelIgnition\\Solutions\\SolutionProviders\\UnknownMariadbCollationSolutionProvider',
     ),
     'ignored_solution_providers' => 
     array (
@@ -835,6 +846,21 @@
       3 => 'Spatie\\LaravelIgnition\\Recorders\\QueryRecorder\\QueryRecorder',
     ),
     'open_ai_key' => NULL,
+    'with_stack_frame_arguments' => true,
+    'argument_reducers' => 
+    array (
+      0 => 'Spatie\\Backtrace\\Arguments\\Reducers\\BaseTypeArgumentReducer',
+      1 => 'Spatie\\Backtrace\\Arguments\\Reducers\\ArrayArgumentReducer',
+      2 => 'Spatie\\Backtrace\\Arguments\\Reducers\\StdClassArgumentReducer',
+      3 => 'Spatie\\Backtrace\\Arguments\\Reducers\\EnumArgumentReducer',
+      4 => 'Spatie\\Backtrace\\Arguments\\Reducers\\ClosureArgumentReducer',
+      5 => 'Spatie\\Backtrace\\Arguments\\Reducers\\DateTimeArgumentReducer',
+      6 => 'Spatie\\Backtrace\\Arguments\\Reducers\\DateTimeZoneArgumentReducer',
+      7 => 'Spatie\\Backtrace\\Arguments\\Reducers\\SymphonyRequestArgumentReducer',
+      8 => 'Spatie\\LaravelIgnition\\ArgumentReducers\\ModelArgumentReducer',
+      9 => 'Spatie\\LaravelIgnition\\ArgumentReducers\\CollectionArgumentReducer',
+      10 => 'Spatie\\Backtrace\\Arguments\\Reducers\\StringableArgumentReducer',
+    ),
   ),
   'tinker' => 
   array (
