@@ -6,8 +6,6 @@ use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use App\Models\User;
 
 /**
  *
@@ -71,12 +69,14 @@ class AuthController extends Controller
 
     }
 
-    /**
-     * @return JsonResponse
-     */
-    public function refresh()
+    public function getUser()
     {
-        
+        return response()->json([
+            'data' => auth()->userOrFail(),
+            'access_token' =>  request()->bearerToken(),
+            'token_type' => 'bearer',
+            'expires_in' => auth()->factory()->getTTL() * 60
+        ]);
     }
 
 }

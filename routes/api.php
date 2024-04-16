@@ -34,6 +34,7 @@ Route::prefix('v1')->group(function () {
         Route::post('register', 'register');
         Route::post('logout', 'logout');
         Route::post('refresh', 'refresh');
+        Route::post('getUser', 'getUser');
     });
 
     Route::resource('product', ProductController::class);
