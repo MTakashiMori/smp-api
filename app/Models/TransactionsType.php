@@ -9,10 +9,11 @@ class TransactionsType extends MainModel
 {
     use HasFactory;
 
+    protected $table = 'transaction_types';
+
     protected $keyType = 'string';
 
     public $incrementing = false;
-
 
     protected $guarded = [];
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FinancialCategoriesController;
 use App\Http\Controllers\FinancialController;
 use App\Http\Controllers\PartyController;
 use App\Http\Controllers\PartyMenuController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SponsorController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TransactionsController;
+use App\Http\Controllers\TransactionTypeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -48,5 +50,6 @@ Route::prefix('v1')->group(function () {
     Route::resource('financial', FinancialController::class);
     Route::get('transactions/report', [TransactionsController::class, 'getTransactionReport']);
     Route::resource('transactions', TransactionsController::class);
+    Route::resource('financial-categories', FinancialCategoriesController::class);
 
 });

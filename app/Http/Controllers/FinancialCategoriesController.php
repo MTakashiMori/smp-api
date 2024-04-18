@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Constants\ResponseMessages;
-use App\Http\Requests\Party\PartyRequest;
+use App\Http\Requests\Financial\FinancialCategoriesRequest;
 use App\Services\FinancialCategoriesService;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -26,14 +26,14 @@ class FinancialCategoriesController extends MainController
     }
 
     /**
-     * @param PartyRequest $request
+     * @param FinancialCategoriesRequest $request
      * @return JsonResponse
      */
-    public function store(PartyRequest $request): JsonResponse
+    public function store(FinancialCategoriesRequest $request): JsonResponse
     {
         DB::beginTransaction();
         try {
-            $cave = $this->service->store($request->all());
+            $data = $this->service->store($request->all());
             $this->response->message = ResponseMessages::CREATED;
         } catch (Exception $e) {
             $this->response->message = ResponseMessages::ERROR;
@@ -50,16 +50,16 @@ class FinancialCategoriesController extends MainController
         DB::commit();
         return response()->json([
             'message' => $this->response->message,
-            'data' => $cave
+            'data' => $data
         ], $this->response->code);
     }
 
     /**
-     * @param PartyRequest $request
+     * @param FinancialCategoriesRequest $request
      * @param $id
      * @return JsonResponse
      */
-    public function update(PartyRequest $request, $id): JsonResponse
+    public function update(FinancialCategoriesRequest $request, $id): JsonResponse
     {
         DB::beginTransaction();
         try {

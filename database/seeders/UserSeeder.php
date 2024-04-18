@@ -28,9 +28,12 @@ class UserSeeder extends Seeder
 
         foreach ($mails as $mail) {
             User::create([
-                'name' => fake()->name(),
+                'name' => fake('pt_BR')->name(),
                 'email' => $mail,
                 'email_verified_at' => now(),
+                'cpf' => fake('pt_BR')->cpf(),
+                'address' => fake('pt_BR')->address(),
+                'telephone' => fake('pt_BR')->phoneNumber(),
 //            'password' => '5f4dcc3b5aa765d61d8327deb882cf99', // password
                 'password' => Hash::make('password'), // password
                 'remember_token' => Str::random(10),

@@ -8,11 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class MainRepository
 {
-
-    /**
-     * @var MainModel
-     */
-    protected MainModel $model;
+    protected $model;
 
     protected $relationship;
 
@@ -37,6 +33,8 @@ class MainRepository
         {
             $data->whereModelLike($request);
         }
+
+        $data->orderBy('created_at', 'DESC');
 
         return $data->get();
     }
@@ -66,7 +64,7 @@ class MainRepository
      */
     public function update($id, $data)
     {
-        return $this->model::find($id)->update($data);
+        return $this->model->where('id', $id)->update($data);
     }
 
     /**
@@ -75,7 +73,7 @@ class MainRepository
      */
     public function destroy($id)
     {
-       return $this->model->delete($id);
+       return $this->model->find($id)->delete();
     }
 
     /**

@@ -49,9 +49,9 @@ class MainService
      * @param $data
      * @return mixed
      */
-    public function update($id, $data)
+    public function update($data, $id)
     {
-        return $this->repository->show($id)->update($data);
+        return $this->repository->update($id, $data);
     }
 
     /**
