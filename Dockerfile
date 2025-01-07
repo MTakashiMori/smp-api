@@ -7,7 +7,7 @@ RUN apk add --no-cache nginx \
     && rm -rf /var/lib/apt/lists/*
 
 # Installing PHP
-RUN apk add --no-cache php81 \
+RUN apk add --no-cache php82 \
     php81-common \
     php81-fpm \
     php81-dev \

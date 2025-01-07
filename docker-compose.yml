@@ -18,7 +18,7 @@ services:
     networks:
       main:
         aliases:
-          - api
+            - api
   db:
       container_name: smp_db
       image: mariadb:10.4
