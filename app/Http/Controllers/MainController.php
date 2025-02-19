@@ -35,15 +35,23 @@ class MainController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function index(Request $request)
+    public function index(Request $request): JsonResponse
     {
-        $this->response->messsage = ResponseMessages::SUCCESS;
-        $this->response->data = $this->service->index($request->all());
+        try {
+            $this->response->messsage = ResponseMessages::SUCCESS;
+            $this->response->data = $this->service->index($request->all());
 
-        return response()->json([
-            'message' => $this->response->message,
-            'data' => $this->response->data
-        ], $this->response->code);
+            return response()->json([
+                'message' => $this->response->message,
+                'data' => $this->response->data
+            ], $this->response->code);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => ResponseMessages::ERROR,
+                'data' => null
+            ], 500);
+        }
+
     }
 
 //    /**

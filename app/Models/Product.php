@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Product extends MainModel
 {
@@ -13,11 +12,10 @@ class Product extends MainModel
 
     public $incrementing = false;
 
-
     protected $guarded = [];
 
-    public function type(): BelongsTo
-    {
-        return $this->belongsTo(ProductType::class);
-    }
+    public array $relationshipFields = [
+        'typeId' => 'type.id'
+    ];
+
 }

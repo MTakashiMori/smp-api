@@ -26,6 +26,10 @@ class UserSeeder extends Seeder
             'sales@mail.com',
         ];
 
+        for ($i = 0; $i <= 10; $i++) {
+            $mails[] = fake('pt_BR')->email;
+        }
+
         foreach ($mails as $mail) {
             User::create([
                 'name' => fake('pt_BR')->name(),

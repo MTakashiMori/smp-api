@@ -21,9 +21,9 @@ class MainService
     /**
      * @return Collection
      */
-    public function index($id)
+    public function index($data)
     {
-        return $this->repository->index($id);
+        return $this->repository->index($data);
     }
 
     /**

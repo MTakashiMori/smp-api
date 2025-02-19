@@ -90,7 +90,7 @@ class PartyMenuController extends MainController
     {
         DB::beginTransaction();
         try {
-            $data = $this->service->addProductsToPartyMenu($request->all());
+            $this->service->addProductsToPartyMenu($request->all());
             $this->response->message = ResponseMessages::CREATED;
 
         } catch (Exception $e) {
@@ -109,7 +109,7 @@ class PartyMenuController extends MainController
 
         return response()->json([
             'message' => $this->response->message,
-            'data' => $data
+            'data' => null
         ], $this->response->code);
     }
 

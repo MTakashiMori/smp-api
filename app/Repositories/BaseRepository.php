@@ -21,7 +21,8 @@ class BaseRepository
     {
         return DB::table($this->model->getTable())
             ->where($params)
-            ->get();
+            ->get()
+            ->orderBy('created_at', 'desc');
     }
 
 }

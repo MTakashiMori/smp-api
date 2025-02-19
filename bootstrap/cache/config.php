@@ -10,7 +10,7 @@
     'locale' => 'en',
     'fallback_locale' => 'en',
     'faker_locale' => 'en_US',
-    'key' => 'base64:XwMS6d7HghD4BeGkE7IASatnVBBr89Pe68x1y9IbQ6o=',
+    'key' => 'base64:pKH/QcFINIKqN6iDfPD1XNZHzQPS926/HHhyCieemRY=',
     'cipher' => 'AES-256-CBC',
     'maintenance' => 
     array (
@@ -749,7 +749,7 @@
     array (
       0 => '/var/www/html/app/resources/views',
     ),
-    'compiled' => false,
+    'compiled' => '/var/www/html/app/storage/framework/views',
   ),
   'flare' => 
   array (
@@ -776,6 +776,7 @@
         'max_chained_job_reporting_depth' => 5,
       ),
       6 => 'Spatie\\LaravelIgnition\\FlareMiddleware\\AddContext',
+      7 => 'Spatie\\LaravelIgnition\\FlareMiddleware\\AddExceptionHandledStatus',
       'Spatie\\FlareClient\\FlareMiddleware\\CensorRequestBodyFields' => 
       array (
         'censor_fields' => 

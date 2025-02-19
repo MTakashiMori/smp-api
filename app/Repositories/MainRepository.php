@@ -27,16 +27,16 @@ class MainRepository
      */
     public function index($request = null)
     {
-        $data = $this->model->with($this->relationship ?: []);
+        $query = $this->model->with($this->relationship ?: []);
 
         if($request)
         {
-            $data->whereModelLike($request);
+            $query->whereModelLike($request);
         }
 
-        $data->orderBy('created_at', 'DESC');
+        $query->orderBy('created_at', 'DESC');
 
-        return $data->get();
+        return $query->get();
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -67,9 +68,32 @@ class User extends Authenticatable implements JWTSubject
      *
      * @return array
      */
-
     public function getJWTCustomClaims()
     {
-        return [];
+        return [
+            'parties' => []
+        ];
+    }
+
+    /**
+     * Scope a query to only include popular users.
+     */
+    public function scopeWhereModelLike(Builder $query, $data): void
+    {
+        foreach ($data as $column => $item) {
+
+            if(is_int($item) || $column == 'id') {
+                $query->orWhere($column, '=', $item);
+            }
+
+            if(is_array($item)) {
+                $query->orWhereIn($column, $item);
+            }
+
+            if(is_string($item)) {
+                $query->orWhere($column, 'LIKE', ('%' . $item .'%'));
+            }
+
+        }
     }
 }

@@ -38,4 +38,9 @@ class Party extends MainModel
     {
         return [$this->start_date, $this->end_date];
     }
+
+    public function users()
+    {
+        return $this->hasManyThrough(User::class, UserParty::class, 'party_id', 'id', 'id', 'user_id');
+    }
 }

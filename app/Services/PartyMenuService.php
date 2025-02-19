@@ -15,7 +15,7 @@ class PartyMenuService extends MainService
         $this->partyMenuProductsService = $partyMenuProductsService;
     }
 
-    public function addProductsToPartyMenu($request)
+    public function addProductsToPartyMenu($request): void
     {
         $existingItems = $this->partyMenuProductsService
             ->findAlreadyAddedProducts($request['party_menu_id'], $request['items'])

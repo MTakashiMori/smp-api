@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Constants\ResponseMessages;
 use App\Http\Requests\Party\PartyRequest;
+use App\Http\Requests\Party\PartyRequestAssignUsersToParty;
+use App\Http\Requests\Party\PartyRequestGetPartiesByUser;
 use App\Services\PartyService;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -78,6 +80,55 @@ class PartyController extends MainController
         }
 
         DB::commit();
+        return response()->json([
+            'message' => $this->response->message,
+            'data' => $cave
+        ], $this->response->code);
+    }
+
+    public function assignUsers(PartyRequestAssignUsersToParty $request): JsonResponse
+    {
+        DB::beginTransaction();
+        try {
+            $this->service->assignUsersToParty($request->all());
+            $this->response->message = ResponseMessages::CREATED;
+
+        } catch (Exception $e) {
+            $this->response->message = ResponseMessages::ERROR;
+            $this->response->data = $e->getMessage();
+            $this->response->code = $e->getCode();
+
+            DB::rollback();
+            return response()->json([
+                'message' => $this->response->message,
+                'data' => $this->response->data
+            ],  500);
+        }
+
+        DB::commit();
+
+        return response()->json([
+            'message' => $this->response->message,
+            'data' => null
+        ], $this->response->code);
+    }
+
+    public function getPartiesByUser(PartyRequestGetPartiesByUser $request): JsonResponse
+    {
+        try {
+            $cave = $this->service->getRelatedPartiesByUserId($request->all());
+            $this->response->message = ResponseMessages::SUCCESS;
+        } catch (Exception $e) {
+            $this->response->message = ResponseMessages::ERROR;
+            $this->response->data = $e->getMessage();
+            $this->response->code = $e->getCode();
+
+            return response()->json([
+                'message' => $this->response->message,
+                'data' => $this->response->data
+            ], $this->response->code);
+        }
+
         return response()->json([
             'message' => $this->response->message,
             'data' => $cave

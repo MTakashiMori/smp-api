@@ -10,7 +10,6 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SponsorController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TransactionsController;
-use App\Http\Controllers\TransactionTypeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -39,8 +38,16 @@ Route::prefix('v1')->group(function () {
         Route::post('getUser', 'getUser');
     });
 
+    Route::prefix('dashboard')->controller(\App\Http\Controllers\DashboardController::class)->group(function () {
+        Route::get('super-admin', [PartyController::class, 'getSuperAdminDashboard']);
+        Route::get('admin', [PartyController::class, 'getAdminDashboard']);
+        Route::get('sales', [PartyController::class, 'getSalesDashboard']);
+    });
+
     Route::resource('product', ProductController::class);
+    Route::get('party/related-user', [PartyController::class, 'getPartiesByUser']);
     Route::resource('party', PartyController::class);
+    Route::post('party/assign-users', [PartyController::class, 'assignUsers']);
     Route::post('party-menu/add-products', [PartyMenuController::class, 'addProducts']);
     Route::resource('party-menu', PartyMenuController::class);
     Route::resource('party-menu-products', PartyMenuProductController::class);
