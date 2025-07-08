@@ -48,6 +48,10 @@ class PartyService extends MainService
     public function assignUsersToParty($request): void
     {
         foreach ($request['users'] as $userId) {
+            $userAlreadyAssociatedWithParty = $this->userPartyService->checkUserAlreadyAssociated($userId, $request['party_id']);
+            if($userAlreadyAssociatedWithParty){
+                throw new \Exception("User already associated with this party", 422);
+            }
             $this->userPartyService->store([
                 'user_id' => $userId,
                 'party_id' => $request['party_id']

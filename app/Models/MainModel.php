@@ -36,30 +36,23 @@ class MainModel extends Model
 
             $this->applyFilter($query, $column, $item);
 
-//            if(is_int($item) || $column == 'id') {
-//                $this->whereInteger($query, $column, $item);
-//            }
-//
-//            if(is_array($item)) {
-//                $query->orWhereIn($column, $item);
-//            }
-//
-//            if(is_string($item)) {
-//                $query->orWhere($column, 'LIKE', ('%' . $item .'%'));
-//            }
-
         }
     }
 
     private function applyFilter(Builder $query, string $column, mixed $item): Builder
     {
         if (is_int($item) || $column === 'id') {
-            $query->orWhere($column, $item);
-        } elseif (is_array($item)) {
-            $query->orWhereIn($column, $item);
-        } elseif (is_string($item)) {
-            $query->orWhere($column, 'LIKE', ('%' . $item . '%'));
+            return $query->where($column, $item);
         }
+
+        if(is_array($item)) {
+            return $query->whereIn($column, $item);
+        }
+
+        if (is_string($item)) {
+            return $query->where($column, 'LIKE', ('%' . $item . '%'));
+        }
+
         return $query;
     }
 

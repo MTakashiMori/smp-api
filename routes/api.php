@@ -44,6 +44,8 @@ Route::prefix('v1')->group(function () {
         Route::get('sales', [PartyController::class, 'getSalesDashboard']);
     });
 
+    Route::get('sponsor/filter-data', [SponsorController::class, 'getFilterData']);
+
     Route::resource('product', ProductController::class);
     Route::get('party/related-user', [PartyController::class, 'getPartiesByUser']);
     Route::resource('party', PartyController::class);

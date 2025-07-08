@@ -84,4 +84,22 @@ class SponsorController extends MainController
         ], $this->response->code);
     }
 
+    public function getFilterData()
+    {
+        try {
+            $this->response->messsage = ResponseMessages::SUCCESS;
+            $this->response->data = $this->service->getFilterData();
+
+            return response()->json([
+                'message' => $this->response->message,
+                'data' => $this->response->data
+            ], $this->response->code);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => ResponseMessages::ERROR,
+                'data' => null
+            ], 500);
+        }
+    }
+
 }

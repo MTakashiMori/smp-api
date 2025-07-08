@@ -21,7 +21,7 @@ class MainService
     /**
      * @return Collection
      */
-    public function index($data)
+    public function index($data = null): Collection
     {
         return $this->repository->index($data);
     }

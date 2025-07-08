@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Constants\ResponseMessages;
-use App\Http\Requests\Party\PartyRequest;
+use App\Http\Requests\Party\PartyMenuRequest;
 use App\Http\Requests\Party\PartyRequestAddProducts;
 use App\Services\PartyMenuService;
 use App\Services\PartyService;
@@ -28,10 +28,10 @@ class PartyMenuController extends MainController
     }
 
     /**
-     * @param PartyRequest $request
+     * @param PartyMenuRequest $request
      * @return JsonResponse
      */
-    public function store(PartyRequest $request): JsonResponse
+    public function store(PartyMenuRequest $request): JsonResponse
     {
         DB::beginTransaction();
         try {
@@ -57,11 +57,11 @@ class PartyMenuController extends MainController
     }
 
     /**
-     * @param PartyRequest $request
+     * @param PartyMenuRequest $request
      * @param $id
      * @return JsonResponse
      */
-    public function update(PartyRequest $request, $id): JsonResponse
+    public function update(PartyMenuRequest $request, $id): JsonResponse
     {
         DB::beginTransaction();
         try {

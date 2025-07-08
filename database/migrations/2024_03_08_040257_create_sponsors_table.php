@@ -16,7 +16,7 @@ return new class extends Migration
 
             $table->string('name', 100)->comment('Sponsor name');
             $table->string('telephone', 20)->comment('Telephone name');
-            $table->string('reference', 20)->comment('Reference name');
+            $table->string('reference', 100)->comment('Reference name');
             $table->string('address',100)->comment('Address name');
 
             $table->softDeletes();

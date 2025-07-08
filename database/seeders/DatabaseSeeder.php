@@ -22,7 +22,9 @@ class DatabaseSeeder extends Seeder
              PartyMenuSeeder::class,
              FinancialSeeder::class,
              FinancialCategoriesSeeder::class,
-             TransactionSeeder::class
+             TransactionSeeder::class,
+             SponsorSeeder::class,
+             PartySponsorSeeder::class,
          ]);
     }
 }

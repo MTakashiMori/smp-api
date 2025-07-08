@@ -46,6 +46,7 @@ class MainController extends Controller
                 'data' => $this->response->data
             ], $this->response->code);
         } catch (\Exception $e) {
+            dd($e);
             return response()->json([
                 'message' => ResponseMessages::ERROR,
                 'data' => null

@@ -12,4 +12,9 @@ class UserPartyService extends MainService
         $this->repository = $repository;
     }
 
+    public function checkUserAlreadyAssociated($userId, $partyId): bool
+    {
+        return $this->repository->index(['user_id' => $userId, 'party_id' => $partyId])->isNotEmpty();
+    }
+
 }

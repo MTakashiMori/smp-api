@@ -102,7 +102,7 @@ class PartyController extends MainController
             return response()->json([
                 'message' => $this->response->message,
                 'data' => $this->response->data
-            ],  500);
+            ],  $this->response->code);
         }
 
         DB::commit();
