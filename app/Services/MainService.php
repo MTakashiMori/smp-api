@@ -60,7 +60,7 @@ class MainService
      */
     public function destroy($id)
     {
-        return $this->repository->delete($id);
+        return $this->repository->destroy($id);
     }
 
 

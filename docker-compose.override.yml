@@ -3,9 +3,12 @@ services:
   api:
     ports:
       - "8001:80"
+    environment:
+      DB_HOST: db
+
   db:
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - /var/www/html/db/smp-data:/var/lib/mysql
     environment:

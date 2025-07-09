@@ -10,7 +10,7 @@
     'locale' => 'en',
     'fallback_locale' => 'en',
     'faker_locale' => 'en_US',
-    'key' => 'base64:9aEuuTtc9xY7RgLMVHOW6LKtrcMLFiCkgS9PySkau3I=',
+    'key' => 'base64:zRMYNlOYC5jdIM6GkUcqdiRI0MipbxUNCL0BXzLK5Co=',
     'cipher' => 'AES-256-CBC',
     'maintenance' => 
     array (
@@ -294,7 +294,7 @@
       array (
         'driver' => 'mysql',
         'url' => NULL,
-        'host' => 'smp_db',
+        'host' => 'db',
         'port' => '3306',
         'database' => 'smp-db',
         'username' => 'peUser',
@@ -314,7 +314,7 @@
       array (
         'driver' => 'pgsql',
         'url' => NULL,
-        'host' => 'smp_db',
+        'host' => 'db',
         'port' => '3306',
         'database' => 'smp-db',
         'username' => 'peUser',
@@ -329,7 +329,7 @@
       array (
         'driver' => 'sqlsrv',
         'url' => NULL,
-        'host' => 'smp_db',
+        'host' => 'db',
         'port' => '3306',
         'database' => 'smp-db',
         'username' => 'peUser',
@@ -749,7 +749,7 @@
     array (
       0 => '/var/www/html/app/resources/views',
     ),
-    'compiled' => '/var/www/html/app/storage/framework/views',
+    'compiled' => false,
   ),
   'flare' => 
   array (
