@@ -59,6 +59,15 @@ class MainRepository
 
     /**
      * @param $id
+     * @return mixed
+     */
+    public function findById($id)
+    {
+        return $this->model::find($id)->first();
+    }
+
+    /**
+     * @param $id
      * @param $data
      * @return mixed
      */

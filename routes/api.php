@@ -50,8 +50,11 @@ Route::prefix('v1')->group(function () {
     Route::get('party/related-user', [PartyController::class, 'getPartiesByUser']);
     Route::resource('party', PartyController::class);
     Route::post('party/assign-users', [PartyController::class, 'assignUsers']);
+
     Route::post('party-menu/add-products', [PartyMenuController::class, 'addProducts']);
+    Route::get('party-menu/products', [PartyMenuController::class, 'getProductsByParty']);
     Route::resource('party-menu', PartyMenuController::class);
+
     Route::resource('party-menu-products', PartyMenuProductController::class);
     Route::resource('sponsor', SponsorController::class);
     Route::resource('user', UserController::class);

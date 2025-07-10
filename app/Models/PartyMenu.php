@@ -16,7 +16,7 @@ class PartyMenu extends MainModel
 
     protected $guarded = [];
 
-    protected $appends = ['products'];
+    protected $appends = ['products', 'party_name'];
 
     public function party(): BelongsTo
     {
@@ -34,6 +34,11 @@ class PartyMenu extends MainModel
             $item->product->price = number_format($item->price, 2, '.', '');
             return $item->product;
         });
+    }
+
+    public function getPartyNameAttribute()
+    {
+        return $this->party()->first()->name;
     }
 
 }

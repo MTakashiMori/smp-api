@@ -38,4 +38,15 @@ class PartyMenuService extends MainService
         }
     }
 
+    public function getProductList($request)
+    {
+        $partyMenu = $this->repository->findById(['id' => $request['party_menu_id']]);
+
+        return [
+            'products' => $this->partyMenuProductsService->index(['party_menu_id' => $request['party_menu_id']]),
+            'party_name' => $partyMenu->party_name,
+            'menu_label' => $partyMenu->label,
+        ];
+    }
+
 }

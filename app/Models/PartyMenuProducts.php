@@ -36,6 +36,6 @@ class PartyMenuProducts extends MainModel
 
     public function getPartyNameAttribute()
     {
-        return $this->menu()->first()->party->name ?? '';
+//        return $this->menu()->first()->party->name ?? '';
     }
 }

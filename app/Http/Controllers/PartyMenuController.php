@@ -10,6 +10,7 @@ use App\Services\PartyService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class PartyMenuController extends MainController
 {
@@ -111,6 +112,25 @@ class PartyMenuController extends MainController
             'message' => $this->response->message,
             'data' => null
         ], $this->response->code);
+    }
+
+    public function getProductsByParty(Request $request)
+    {
+        try {
+            $this->response->messsage = ResponseMessages::SUCCESS;
+            $this->response->data = $this->service->getProductList($request->all());
+
+            return response()->json([
+                'message' => $this->response->message,
+                'data' => $this->response->data
+            ], $this->response->code);
+        } catch (\Exception $e) {
+            dd($e);
+            return response()->json([
+                'message' => ResponseMessages::ERROR,
+                'data' => null
+            ], 500);
+        }
     }
 
 }
