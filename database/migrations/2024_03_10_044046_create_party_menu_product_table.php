@@ -15,9 +15,11 @@ return new class extends Migration
             $table->uuid('id')->primary();
 
             $table->foreignUuid('party_menu_id')->references('id')->on('party_menus');
-            $table->foreignUuid('product_id')->references('id')->on('products');
+//            $table->foreignUuid('product_id')->references('id')->on('products');
+            $table->string('name')->comment('Product name');
             $table->double('price', 6, 2);
-            $table->string('group')->default('geral')->comment('Party Menu group');
+//            $table->string('group')->default('geral')->comment('Party Menu group');
+
 
             $table->softDeletes();
 
