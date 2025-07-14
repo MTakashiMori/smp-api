@@ -2,12 +2,12 @@
 
 namespace App\Services;
 
-use App\Repositories\PartyMenuProductRepository;
+use App\Repositories\ProductRepository;
 
-class PartyMenuProductService extends MainService
+class ProductService extends MainService
 {
 
-    public function __construct(PartyMenuProductRepository $repository)
+    public function __construct(ProductRepository $repository)
     {
         $this->repository = $repository;
     }

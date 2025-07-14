@@ -3,20 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Constants\ResponseMessages;
-use App\Http\Requests\Party\PartyRequest;
-use App\Services\PartyMenuProductService;
-use App\Services\PartyService;
+use App\Http\Requests\Party\PartyMenuGroup\PartyMenuGroupRequest;
+use App\Services\PartyMenuGroupService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 
-class PartyMenuProductController extends MainController
+class PartyMenuGroupController extends MainController
 {
-
     /**
-     * @param PartyService $service
+     * @param PartyMenuGroupService $service
      */
-    public function __construct(PartyMenuProductService $service)
+    public function __construct(PartyMenuGroupService $service)
     {
         $this->service = $service;
         $this->response = (object)[
@@ -27,10 +25,10 @@ class PartyMenuProductController extends MainController
     }
 
     /**
-     * @param PartyRequest $request
+     * @param PartyMenuGroupRequest $request
      * @return JsonResponse
      */
-    public function store(PartyRequest $request): JsonResponse
+    public function store(PartyMenuGroupRequest $request): JsonResponse
     {
         DB::beginTransaction();
         try {
@@ -56,11 +54,11 @@ class PartyMenuProductController extends MainController
     }
 
     /**
-     * @param PartyRequest $request
+     * @param PartyMenuGroupRequest $request
      * @param $id
      * @return JsonResponse
      */
-    public function update(PartyRequest $request, $id): JsonResponse
+    public function update(PartyMenuGroupRequest $request, $id): JsonResponse
     {
         DB::beginTransaction();
         try {
@@ -84,5 +82,6 @@ class PartyMenuProductController extends MainController
             'data' => $cave
         ], $this->response->code);
     }
+
 
 }

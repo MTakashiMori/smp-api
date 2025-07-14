@@ -16,7 +16,7 @@ class PartyMenu extends MainModel
 
     protected $guarded = [];
 
-    protected $appends = ['products', 'party_name'];
+    protected $appends = [ 'party_name'];
 
     public function party(): BelongsTo
     {
@@ -25,15 +25,7 @@ class PartyMenu extends MainModel
 
     public function products(): HasMany
     {
-        return $this->hasMany(PartyMenuProducts::class)->with('product');
-    }
-
-    public function getProductsAttribute()
-    {
-        return $this->products()->get()->map(function ($item) {
-            $item->product->price = number_format($item->price, 2, '.', '');
-            return $item->product;
-        });
+        return $this->hasMany(Products::class);
     }
 
     public function getPartyNameAttribute()

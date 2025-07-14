@@ -7,9 +7,9 @@ use App\Repositories\PartyMenuRepository;
 class PartyMenuService extends MainService
 {
 
-    private PartyMenuProductService $partyMenuProductsService;
+    private ProductService $partyMenuProductsService;
 
-    public function __construct(PartyMenuRepository $repository, PartyMenuProductService $partyMenuProductsService)
+    public function __construct(PartyMenuRepository $repository, ProductService $partyMenuProductsService)
     {
         $this->repository = $repository;
         $this->partyMenuProductsService = $partyMenuProductsService;

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class PartyMenuProducts extends MainModel
+class Products extends MainModel
 {
     use HasFactory;
 
@@ -18,11 +18,6 @@ class PartyMenuProducts extends MainModel
         'menu_label',
         'party_name',
     ];
-
-    public function product()
-    {
-        return $this->belongsTo(Product::class);
-    }
 
     public function menu()
     {
