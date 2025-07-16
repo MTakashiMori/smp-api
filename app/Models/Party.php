@@ -14,7 +14,6 @@ class Party extends MainModel
 
     public $incrementing = false;
 
-
     protected $guarded = [];
 
     protected $appends = ['date'];
@@ -22,6 +21,11 @@ class Party extends MainModel
     public function financial(): HasMany
     {
         return $this->hasMany(Financial::class);
+    }
+
+    public function address()
+    {
+        return $this->belongsTo(Address::class);
     }
 
     public function sponsors(): HasManyThrough

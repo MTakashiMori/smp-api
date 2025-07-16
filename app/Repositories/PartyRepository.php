@@ -11,6 +11,7 @@ class PartyRepository extends MainRepository
     {
         $this->model = $model;
         $this->relationship = [
+            'address',
             'partyMenu',
             'users'
         ];

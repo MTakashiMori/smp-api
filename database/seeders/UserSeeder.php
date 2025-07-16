@@ -2,11 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Financial;
-use App\Models\Party;
 use App\Models\User;
-use Carbon\Carbon;
-use DateTime;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;

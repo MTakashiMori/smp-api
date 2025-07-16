@@ -18,7 +18,8 @@ return new class extends Migration
             $table->date('start_date')->comment('Party start date');
             $table->date('end_date')->comment('Party end date');
             $table->string('reference')->comment('Party reference name');
-            $table->string('address')->comment('Party address');
+//            $table->string('address')->comment('Party address');
+            $table->foreignUuid('address_id')->references('id')->on('addresses');
 
             $table->softDeletes();
 

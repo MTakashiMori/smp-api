@@ -16,12 +16,15 @@ class PartyService extends MainService
 
     private UserPartyService $userPartyService;
 
+    private AddressService $addressService;
+
     public function __construct(
         PartyRepository $repository,
         PartyMenuService $partyMenuService,
         FinancialService $financialService,
         FinancialCategoriesService $financialCategoriesService,
-        UserPartyService $userPartyService
+        UserPartyService $userPartyService,
+        AddressService $addressService
     )
     {
         $this->repository = $repository;
@@ -29,10 +32,16 @@ class PartyService extends MainService
         $this->financialService = $financialService;
         $this->financialCategoriesService = $financialCategoriesService;
         $this->userPartyService = $userPartyService;
+        $this->addressService = $addressService;
     }
 
     public function store($data)
     {
+        $addressId = $this->addressService->store($data['address']);
+
+        $data['address_id'] = $addressId->id;
+        unset($data['address']);
+
         $data = parent::store($data);
 
         $this->partyMenuService->store(['party_id' => $data->id]);
