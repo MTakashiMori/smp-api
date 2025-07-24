@@ -38,6 +38,11 @@ class Party extends MainModel
         return $this->hasMany(PartyMenu::class);
     }
 
+    public function currentPartyMenu()
+    {
+        return $this->hasOne(PartyMenu::class)->where('active', 1);
+    }
+
     public function getDateAttribute()
     {
         return [$this->start_date, $this->end_date];

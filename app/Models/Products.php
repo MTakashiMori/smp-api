@@ -16,7 +16,7 @@ class Products extends MainModel
 
     protected $appends = [
         'menu_label',
-        'party_name',
+        'group_name'
     ];
 
     public function menu()
@@ -24,13 +24,19 @@ class Products extends MainModel
         return $this->belongsTo(PartyMenu::class, 'party_menu_id')->with('party');
     }
 
+    public function group()
+    {
+        return $this->belongsTo(PartyMenuGroup::class, 'party_menu_group_id');
+    }
+
     public function getMenuLabelAttribute()
     {
         return $this->menu()->first()->label ?? '';
     }
 
-    public function getPartyNameAttribute()
+    public function getGroupNameAttribute()
     {
-//        return $this->menu()->first()->party->name ?? '';
+        return $this->group()->first()->name ?? '';
     }
+
 }

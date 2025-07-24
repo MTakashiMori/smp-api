@@ -18,6 +18,8 @@ return new class extends Migration
 
             $table->string('label')->default('Geral')->comment('Menu label');
 
+            $table->boolean('active')->default(true)->comment('Menu active flag');
+
             $table->softDeletes();
 
             $table->timestamps();

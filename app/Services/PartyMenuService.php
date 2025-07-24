@@ -9,10 +9,30 @@ class PartyMenuService extends MainService
 
     private ProductService $partyMenuProductsService;
 
-    public function __construct(PartyMenuRepository $repository, ProductService $partyMenuProductsService)
+    private PartyMenuGroupService $partyMenuGroupService;
+
+    public function __construct(
+        PartyMenuRepository $repository,
+        ProductService $partyMenuProductsService,
+        PartyMenuGroupService $partyMenuGroupService)
     {
         $this->repository = $repository;
         $this->partyMenuProductsService = $partyMenuProductsService;
+        $this->partyMenuGroupService = $partyMenuGroupService;
+    }
+
+    public function store($data): void
+    {
+        $this->disableActiveMenusByPartyId($data['party_id']);
+
+        parent::store($data);
+    }
+
+    private function disableActiveMenusByPartyId($partyId): void
+    {
+        $this->repository->index(['party_id' => $partyId])->each(function ($item) {
+            return $this->repository->update($item->id, ['active' => 0]);
+        });
     }
 
     public function addProductsToPartyMenu($request): void
@@ -44,6 +64,7 @@ class PartyMenuService extends MainService
 
         return [
             'products' => $this->partyMenuProductsService->index(['party_menu_id' => $request['party_menu_id']]),
+            'product_groups' => $this->partyMenuGroupService->index(['party_menu_id' => $request['party_menu_id']]),
             'party_name' => $partyMenu->party_name,
             'menu_label' => $partyMenu->label,
         ];

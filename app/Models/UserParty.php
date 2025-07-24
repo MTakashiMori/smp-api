@@ -14,7 +14,8 @@ class UserParty extends MainModel
     public $incrementing = false;
 
     public $appends = [
-        'party_name'
+        'party_name',
+        'current_menu'
     ];
 
     protected $guarded = [];
@@ -32,6 +33,11 @@ class UserParty extends MainModel
     public function getPartyNameAttribute(): string
     {
         return $this->party()->first()->name;
+    }
+
+    public function getCurrentMenuAttribute()
+    {
+        return $this->party()->with('currentPartyMenu')->first()->currentPartyMenu->id;
     }
 
 }
