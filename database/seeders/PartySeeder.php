@@ -17,6 +17,8 @@ class PartySeeder extends Seeder
     public function run(): void
     {
         $items = [
+            'Festa Junina 2025',
+            'Festa da Padroeira 2025',
             'Festa Junina 2024',
             'Festa da Padroeira 2024',
             'Festa Junina 2023',
@@ -44,6 +46,7 @@ class PartySeeder extends Seeder
                 'end_date' => $date->modify('+3 day')->format('Y-m-d'),
                 'reference' => '',
                 'address_id' => $addressId->id,
+                'status' => array_rand(array_flip(['active', 'fulfilled', 'scheduled', 'rejected', 'imported']))
             ]);
         }
     }

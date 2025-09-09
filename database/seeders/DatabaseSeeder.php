@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
              RoleSeeder::class,
              PartySeeder::class,
              PartyMenuSeeder::class,
+             PartyMenuGroupSeeder::class,
              FinancialSeeder::class,
              FinancialCategoriesSeeder::class,
              TransactionSeeder::class,

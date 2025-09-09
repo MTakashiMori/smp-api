@@ -63,5 +63,10 @@ class MainService
         return $this->repository->destroy($id);
     }
 
+    public function indexCount($data = null)
+    {
+        return $this->repository->index($data)->count();
+    }
+
 
 }

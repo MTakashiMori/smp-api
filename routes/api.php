@@ -39,9 +39,9 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::prefix('dashboard')->controller(\App\Http\Controllers\DashboardController::class)->group(function () {
-        Route::get('super-admin', [PartyController::class, 'getSuperAdminDashboard']);
-        Route::get('admin', [PartyController::class, 'getAdminDashboard']);
-        Route::get('sales', [PartyController::class, 'getSalesDashboard']);
+        Route::get('super-admin', 'getSuperAdminDashboard');
+        Route::get('admin', 'getAdminDashboard');
+        Route::get('sales', 'getSalesDashboard');
     });
 
     Route::get('sponsor/filter-data', [SponsorController::class, 'getFilterData']);
