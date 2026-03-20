@@ -44,7 +44,15 @@ class AuthController extends Controller
         $user = Auth::user();
 
         return response()->json([
-            'data' => $user,
+            'data' => ['id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'telephone' => $user->telephone,
+                'roles' => $user->roles()->pluck('name'),
+                'permissions' => $user->roles()->get()->map(function ($role) {
+                    return $role->permissions->pluck('name');
+                })->flatten()->unique()->toArray()
+            ],
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class RoleUser extends MainModel
+class PermissionRole extends MainModel
 {
     use HasFactory;
 
@@ -13,10 +13,4 @@ class RoleUser extends MainModel
     public $incrementing = false;
 
     protected $guarded = [];
-
-    public function role()
-    {
-        return $this->belongsTo(Role::class);
-    }
-
 }

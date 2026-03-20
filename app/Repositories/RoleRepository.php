@@ -4,10 +4,10 @@ namespace App\Repositories;
 
 use App\Models\Role;
 
-class RoleRepository extends BaseRepository
+class RoleRepository extends MainRepository
 {
     public function __construct(Role $model)
     {
-        parent::__construct($model);
+        $this->model = $model;
     }
 }

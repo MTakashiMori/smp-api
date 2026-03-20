@@ -49,6 +49,11 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'created_at' => 'datetime',
+    ];
+
+    public $appends = [
+        'userRoles'
     ];
 
     /**
@@ -95,5 +100,22 @@ class User extends Authenticatable implements JWTSubject
             }
 
         }
+    }
+
+    //RELATIONSHIPS
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'role_users', 'user_id', 'role_id')->with('permissions');
+    }
+
+    public function permissions()
+    {
+        return $this->roles()->with('permissions');
+    }
+
+    public function getUserRolesAttribute()
+    {
+        return $this->roles()->pluck('name');
     }
 }

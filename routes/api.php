@@ -58,6 +58,9 @@ Route::prefix('v1')->group(function () {
     Route::resource('products', ProductController::class);
     Route::resource('sponsor', SponsorController::class);
     Route::resource('user', UserController::class);
+
+    Route::get('role/users', [RoleController::class, 'getUserWithRoles']);
+    Route::post('role/users/attach', [RoleController::class, 'attachUsersToRole']);
     Route::resource('role', RoleController::class);
     Route::resource('financial', FinancialController::class);
     Route::get('transactions/report', [TransactionsController::class, 'getTransactionReport']);

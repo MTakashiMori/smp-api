@@ -25,9 +25,13 @@ class MainRepository
     /**
      * @return Collection
      */
-    public function index($request = null)
+    public function index($request = null, $relationship = null)
     {
-        $query = $this->model->with($this->relationship ?: []);
+        if(is_null($relationship)) {
+            $relationship = $this->relationship;
+        }
+
+        $query = $this->model->with($relationship ?: []);
 
         if($request)
         {
@@ -61,9 +65,15 @@ class MainRepository
      * @param $id
      * @return mixed
      */
-    public function findById($id)
+    public function findById($id, $relationships = null)
     {
-        return $this->model::find($id)->first();
+        $query = $this->model->newQuery();
+
+        if ($relationships) {
+            $query->with($relationships);
+        }
+
+        return $query->find($id)->first();
     }
 
     /**
