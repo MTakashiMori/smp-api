@@ -14,6 +14,11 @@ class Role extends MainModel
 
     public $guarded = [];
 
+    public function party()
+    {
+        return $this->belongsTo(Party::class);
+    }
+
     public function permissions()
     {
         return $this->belongsToMany(Permission::class, 'permission_roles', 'role_id', 'permission_id');
@@ -21,6 +26,6 @@ class Role extends MainModel
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'role_users', 'role_id', 'user_id');
+        return $this->belongsToMany(User::class, 'role_users', 'role_id', 'user_id')->withPivot('party_id');
     }
 }

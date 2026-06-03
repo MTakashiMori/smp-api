@@ -33,7 +33,7 @@ class TransactionsController extends MainController
     public function getTransactionReport(TransactionReportRequest $request)
     {
         $this->response->messsage = ResponseMessages::SUCCESS;
-        $this->response->data = $this->service->getTransactionReport($request->all());
+        $this->response->data = $this->transactionsService()->getTransactionReport($request->all());
 
         return response()->json([
             'message' => $this->response->message,
@@ -49,7 +49,7 @@ class TransactionsController extends MainController
     {
         DB::beginTransaction();
         try {
-            $cave = $this->service->store($request->all());
+            $data = $this->service->store($request->all());
             $this->response->message = ResponseMessages::CREATED;
         } catch (Exception $e) {
             $this->response->message = ResponseMessages::ERROR;
@@ -60,13 +60,13 @@ class TransactionsController extends MainController
             return response()->json([
                 'message' => $this->response->message,
                 'data' => $this->response->data
-            ], $this->response->code);
+            ],  500);
         }
 
         DB::commit();
         return response()->json([
             'message' => $this->response->message,
-            'data' => $cave
+            'data' => $data
         ], $this->response->code);
     }
 
@@ -79,7 +79,7 @@ class TransactionsController extends MainController
     {
         DB::beginTransaction();
         try {
-            $cave = $this->service->update($request->all(), $id);
+            $data = $this->service->update($request->all(), $id);
             $this->response->message = ResponseMessages::UPDATED;
         } catch (Exception $e) {
             $this->response->message = ResponseMessages::ERROR;
@@ -96,8 +96,48 @@ class TransactionsController extends MainController
         DB::commit();
         return response()->json([
             'message' => $this->response->message,
-            'data' => $cave
+            'data' => $data
         ], $this->response->code);
+    }
+
+    public function approve($id): JsonResponse
+    {
+        return $this->changeStatus($id, 'approve');
+    }
+
+    public function reject($id): JsonResponse
+    {
+        return $this->changeStatus($id, 'reject');
+    }
+
+    private function changeStatus($id, string $method): JsonResponse
+    {
+        DB::beginTransaction();
+        try {
+            $data = $this->transactionsService()->{$method}($id);
+            $this->response->message = ResponseMessages::UPDATED;
+        } catch (Exception $e) {
+            $this->response->message = ResponseMessages::ERROR;
+            $this->response->data = $e->getMessage();
+            $this->response->code = $e->getCode() ?: 500;
+
+            DB::rollback();
+            return response()->json([
+                'message' => $this->response->message,
+                'data' => $this->response->data
+            ], $this->response->code);
+        }
+
+        DB::commit();
+        return response()->json([
+            'message' => $this->response->message,
+            'data' => $data
+        ], $this->response->code);
+    }
+
+    private function transactionsService(): TransactionsService
+    {
+        return $this->service;
     }
 
 }

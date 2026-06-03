@@ -10,6 +10,8 @@ class Address extends MainModel
 
     protected $keyType = 'string';
 
+    protected $guarded = [];
+
     public $incrementing = false;
 
 }

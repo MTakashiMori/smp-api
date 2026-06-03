@@ -63,7 +63,7 @@ class FinancialCategoriesController extends MainController
     {
         DB::beginTransaction();
         try {
-            $cave = $this->service->update($request->all(), $id);
+            $data = $this->service->update($request->all(), $id);
             $this->response->message = ResponseMessages::UPDATED;
         } catch (Exception $e) {
             $this->response->message = ResponseMessages::ERROR;
@@ -80,7 +80,7 @@ class FinancialCategoriesController extends MainController
         DB::commit();
         return response()->json([
             'message' => $this->response->message,
-            'data' => $cave
+            'data' => $data
         ], $this->response->code);
     }
 

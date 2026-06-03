@@ -13,7 +13,9 @@ class MainModel extends Model
 
     public static function booted() {
         static::creating(function ($model) {
-            $model->id = Str::uuid();
+            if (!$model->getIncrementing() && empty($model->{$model->getKeyName()})) {
+                $model->{$model->getKeyName()} = (string) Str::uuid();
+            }
         });
     }
 
@@ -41,7 +43,7 @@ class MainModel extends Model
 
     private function applyFilter(Builder $query, string $column, mixed $item): Builder
     {
-        if (is_int($item) || $column === 'id') {
+        if (is_int($item) || $column === 'id' || str_ends_with($column, '_id')) {
             return $query->where($column, $item);
         }
 

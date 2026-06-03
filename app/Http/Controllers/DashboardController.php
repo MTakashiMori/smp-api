@@ -24,7 +24,7 @@ class DashboardController extends MainController
     {
         DB::beginTransaction();
         try {
-            $cave = $this->service->getSuperAdminDashboard();
+            $data = $this->service->getSuperAdminDashboard();
             $this->response->message = ResponseMessages::SUCCESS;
         } catch (Exception $e) {
             $this->response->message = ResponseMessages::ERROR;
@@ -41,7 +41,7 @@ class DashboardController extends MainController
         DB::commit();
         return response()->json([
             'message' => $this->response->message,
-            'data' => $cave
+            'data' => $data
         ], $this->response->code);
     }
 
@@ -49,7 +49,7 @@ class DashboardController extends MainController
     {
         DB::beginTransaction();
         try {
-            $cave = $this->service->getAdminDashboard();
+            $data = $this->service->getAdminDashboard();
             $this->response->message = ResponseMessages::SUCCESS;
         } catch (Exception $e) {
             $this->response->message = ResponseMessages::ERROR;
@@ -66,14 +66,14 @@ class DashboardController extends MainController
         DB::commit();
         return response()->json([
             'message' => $this->response->message,
-            'data' => $cave
+            'data' => $data
         ], $this->response->code);
     }
     public function getSalesDashboard()
     {
         DB::beginTransaction();
         try {
-            $cave = $this->service->getSalesDashboard();
+            $data = $this->service->getSalesDashboard();
             $this->response->message = ResponseMessages::SUCCESS;
         } catch (Exception $e) {
             $this->response->message = ResponseMessages::ERROR;
@@ -90,7 +90,7 @@ class DashboardController extends MainController
         DB::commit();
         return response()->json([
             'message' => $this->response->message,
-            'data' => $cave
+            'data' => $data
         ], $this->response->code);
     }
 

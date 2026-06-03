@@ -8,9 +8,15 @@ class PermissionRole extends MainModel
 {
     use HasFactory;
 
-    protected $keyType = 'string';
-
-    public $incrementing = false;
-
     protected $guarded = [];
+
+    public function permission()
+    {
+        return $this->belongsTo(Permission::class);
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
 }

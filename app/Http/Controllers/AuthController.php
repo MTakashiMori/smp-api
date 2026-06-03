@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -44,15 +45,7 @@ class AuthController extends Controller
         $user = Auth::user();
 
         return response()->json([
-            'data' => ['id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-                'telephone' => $user->telephone,
-                'roles' => $user->roles()->pluck('name'),
-                'permissions' => $user->roles()->get()->map(function ($role) {
-                    return $role->permissions->pluck('name');
-                })->flatten()->unique()->toArray()
-            ],
+            'data' => $this->authenticatedUserPayload($user),
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60
@@ -80,11 +73,26 @@ class AuthController extends Controller
     public function getUser()
     {
         return response()->json([
-            'data' => auth()->userOrFail(),
+            'data' => $this->authenticatedUserPayload(auth()->userOrFail()),
             'access_token' =>  request()->bearerToken(),
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60
         ]);
+    }
+
+    private function authenticatedUserPayload(User $user): array
+    {
+        return [
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+            'cpf' => $user->cpf,
+            'telephone' => $user->telephone,
+            'userRoles' => $user->roleNames(),
+            'roles' => $user->roleNames(),
+            'permissions' => $user->permissionNames(),
+            'partyAcl' => $user->aclByParty(),
+        ];
     }
 
 }

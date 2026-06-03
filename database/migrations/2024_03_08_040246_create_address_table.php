@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
 
             $table->string('address')->comment('Address');
-            $table->string('complement')->comment('Address complement');
+            $table->string('complement')->comment('Address complement')->nullable();
             $table->string('cep')->comment('Zip code');
             $table->string('neighborhood')->comment('Neighborhood');
             $table->string('city')->comment('City');

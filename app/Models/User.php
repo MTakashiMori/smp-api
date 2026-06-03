@@ -106,7 +106,9 @@ class User extends Authenticatable implements JWTSubject
 
     public function roles()
     {
-        return $this->belongsToMany(Role::class, 'role_users', 'user_id', 'role_id')->with('permissions');
+        return $this->belongsToMany(Role::class, 'role_users', 'user_id', 'role_id')
+            ->withPivot('party_id')
+            ->with('permissions');
     }
 
     public function permissions()
@@ -114,8 +116,71 @@ class User extends Authenticatable implements JWTSubject
         return $this->roles()->with('permissions');
     }
 
+    public function parties()
+    {
+        return $this->belongsToMany(Party::class, 'user_parties', 'user_id', 'party_id');
+    }
+
+    public function rolesForParty(?string $partyId = null)
+    {
+        $query = $this->roles();
+
+        if ($partyId) {
+            $query->where(function ($query) use ($partyId) {
+                $query->where('role_users.party_id', $partyId)
+                    ->orWhereNull('role_users.party_id');
+            });
+        }
+
+        return $query;
+    }
+
+    public function roleNames(?string $partyId = null): array
+    {
+        if (!$partyId && $this->relationLoaded('roles')) {
+            return $this->roles->pluck('name')->unique()->values()->toArray();
+        }
+
+        return $this->rolesForParty($partyId)->pluck('name')->unique()->values()->toArray();
+    }
+
+    public function permissionNames(?string $partyId = null): array
+    {
+        $roles = (!$partyId && $this->relationLoaded('roles'))
+            ? $this->roles
+            : $this->rolesForParty($partyId)->with('permissions')->get();
+
+        return $roles->flatMap(function ($role) {
+            return $role->permissions->pluck('name');
+        })->unique()->values()->toArray();
+    }
+
+    public function hasRole(string|array $roles, ?string $partyId = null): bool
+    {
+        return collect((array) $roles)->intersect($this->roleNames($partyId))->isNotEmpty();
+    }
+
+    public function hasPermission(string|array $permissions, ?string $partyId = null): bool
+    {
+        return collect((array) $permissions)->intersect($this->permissionNames($partyId))->isNotEmpty();
+    }
+
+    public function aclByParty(): array
+    {
+        $parties = $this->parties()->get();
+
+        return $parties->map(function ($party) {
+            return [
+                'id' => $party->id,
+                'name' => $party->name,
+                'roles' => $this->roleNames($party->id),
+                'permissions' => $this->permissionNames($party->id),
+            ];
+        })->values()->toArray();
+    }
+
     public function getUserRolesAttribute()
     {
-        return $this->roles()->pluck('name');
+        return $this->roleNames();
     }
 }

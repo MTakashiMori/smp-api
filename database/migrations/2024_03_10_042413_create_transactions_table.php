@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignUuid('financial_categories_id')->references('id')->on('financial_categories');
             $table->string('name')->comment('Name of transaction');
             $table->string('description')->nullable()->comment('Description of transaction');
-            $table->double('value', 6, 2)->comment('Transaction value');
+            $table->double('value', 12, 2)->comment('Transaction value');
             $table->string('status')->default(TransactionsStatusConstants::ON_REVIEW)->comment('Transaction status');
 
             $table->softDeletes();

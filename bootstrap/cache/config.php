@@ -10,7 +10,7 @@
     'locale' => 'en',
     'fallback_locale' => 'en',
     'faker_locale' => 'en_US',
-    'key' => 'base64:95awxxMWj0yLTv1N001POPe6TdJu4j4sqJxGvf3mEwI=',
+    'key' => 'base64:no6D2oHCeRzrREdenaVl9zzAQU6N4b+ltt6FUk2w7lE=',
     'cipher' => 'AES-256-CBC',
     'maintenance' => 
     array (
@@ -749,7 +749,7 @@
     array (
       0 => '/var/www/html/app/resources/views',
     ),
-    'compiled' => false,
+    'compiled' => '/var/www/html/app/storage/framework/views',
   ),
   'flare' => 
   array (

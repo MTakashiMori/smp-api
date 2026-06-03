@@ -8,15 +8,21 @@ class RoleUser extends MainModel
 {
     use HasFactory;
 
-    protected $keyType = 'string';
-
-    public $incrementing = false;
-
     protected $guarded = [];
 
     public function role()
     {
         return $this->belongsTo(Role::class);
+    }
+
+    public function party()
+    {
+        return $this->belongsTo(Party::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
 }

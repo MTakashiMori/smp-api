@@ -27,7 +27,7 @@ class Transactions extends MainModel
 
     public function product():BelongsTo
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Products::class);
     }
 
     public function categories():BelongsTo
