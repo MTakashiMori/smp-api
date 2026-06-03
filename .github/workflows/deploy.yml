@@ -1,0 +1,40 @@
+name: Deploy API
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          command_timeout: 30m
+          script: |
+            set -e
+
+            cd /var/www/api
+
+            echo "Pulling latest changes..."
+            git pull origin master
+
+            echo "Installing composer dependencies..."
+            composer install \
+              --no-dev \
+              --optimize-autoloader \
+              --no-interaction
+
+            echo "Running migrations..."
+            php artisan migrate --force
+
+            echo "Optimizing Laravel..."
+            php artisan optimize
+
+            echo "Deploy finished!"
