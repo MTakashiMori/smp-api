@@ -29,7 +29,8 @@ jobs:
             composer install \
               --no-dev \
               --optimize-autoloader \
-              --no-interaction
+              --no-interaction \
+              --ignore-platform-reqs
 
             echo "Running migrations..."
             php artisan migrate --force
