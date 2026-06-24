@@ -4,17 +4,22 @@ namespace App\Http\Middleware;
 
 use App\Constants\Acl;
 use App\Constants\ResponseMessages;
+use App\Support\TenantContext;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class CheckPermission
 {
+    public function __construct(private TenantContext $tenantContext)
+    {
+    }
+
     public function handle(Request $request, Closure $next, string ...$permissions): Response
     {
         /** @var \App\Models\User|null $user */
         $user = auth()->user();
-        $partyId = $this->resolvePartyId($request);
+        $partyId = $this->tenantContext->partyId();
 
         if (!$user) {
             return response()->json([
@@ -29,18 +34,5 @@ class CheckPermission
         }
 
         return $next($request);
-    }
-
-    private function resolvePartyId(Request $request): ?string
-    {
-        $routeParty = $request->route('party');
-
-        if (is_object($routeParty) && isset($routeParty->id)) {
-            return $routeParty->id;
-        }
-
-        return $request->header('X-Party-Id')
-            ?: $request->input('party_id')
-            ?: (is_string($routeParty) ? $routeParty : null);
     }
 }

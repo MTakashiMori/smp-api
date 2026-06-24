@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\Party;
 use App\Repositories\PartyMenuRepository;
+use App\Support\TenantContext;
 
 class PartyMenuService extends MainService
 {
@@ -14,7 +16,9 @@ class PartyMenuService extends MainService
     public function __construct(
         PartyMenuRepository $repository,
         ProductService $partyMenuProductsService,
-        PartyMenuGroupService $partyMenuGroupService)
+        PartyMenuGroupService $partyMenuGroupService,
+        private TenantContext $tenantContext
+    )
     {
         $this->repository = $repository;
         $this->partyMenuProductsService = $partyMenuProductsService;
@@ -23,9 +27,17 @@ class PartyMenuService extends MainService
 
     public function store($data): void
     {
+        Party::query()->forTenant($this->tenantContext)->findOrFail($data['party_id']);
         $this->disableActiveMenusByPartyId($data['party_id']);
 
         parent::store($data);
+    }
+
+    public function update($data, $id)
+    {
+        Party::query()->forTenant($this->tenantContext)->findOrFail($data['party_id']);
+
+        return parent::update($data, $id);
     }
 
     private function disableActiveMenusByPartyId($partyId): void

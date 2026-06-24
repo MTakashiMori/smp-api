@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\TenantContext;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
@@ -55,6 +56,11 @@ class MainModel extends Model
             return $query->where($column, 'LIKE', ('%' . $item . '%'));
         }
 
+        return $query;
+    }
+
+    public function scopeForTenant(Builder $query, TenantContext $tenantContext): Builder
+    {
         return $query;
     }
 

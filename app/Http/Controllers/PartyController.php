@@ -88,11 +88,13 @@ class PartyController extends MainController
     public function assignUsers(PartyRequestAssignUsersToParty $request): JsonResponse
     {
         DB::beginTransaction();
+
         try {
             $this->service->assignUsersToParty($request->all());
             $this->response->message = ResponseMessages::CREATED;
 
         } catch (Exception $e) {
+            dd($e);
             $this->response->message = ResponseMessages::ERROR;
             $this->response->data = $e->getMessage();
             $this->response->code = $e->getCode();

@@ -24,9 +24,7 @@ class PartyRequestGetPartiesByUser extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'user_id' => 'required',
-        ];
+        return [];
     }
 
     /**

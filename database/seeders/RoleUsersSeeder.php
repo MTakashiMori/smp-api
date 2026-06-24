@@ -15,16 +15,10 @@ class RoleUsersSeeder extends Seeder
     public function run(): void
     {
 
-        $users = User::all();
-
-        $superAdminRole = Role::where('name', 'Super Admin')->first();
-
-        foreach ($users as $user) {
-            RoleUser::create([
-                'user_id' => $user->id,
-                'role_id' => $superAdminRole->id,
-            ]);
-        }
+        RoleUser::create([
+            'user_id' => User::first()->id,
+            'role_id' => Role::where('name', 'Super Admin')->first()->id,
+        ]);
 
     }
 }

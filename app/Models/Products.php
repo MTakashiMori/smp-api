@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Support\TenantContext;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Products extends MainModel
@@ -37,6 +39,25 @@ class Products extends MainModel
     public function getGroupNameAttribute()
     {
         return $this->group()->first()->name ?? '';
+    }
+
+    public function scopeForTenant(Builder $query, TenantContext $tenantContext): Builder
+    {
+        if (!$tenantContext->user()) {
+            return $query;
+        }
+
+        if ($tenantContext->isSuperAdmin()) {
+            return $query;
+        }
+
+        $partyIds = $tenantContext->partyId()
+            ? [$tenantContext->partyId()]
+            : $tenantContext->accessiblePartyIds();
+
+        return $query->whereHas('menu', function (Builder $query) use ($partyIds) {
+            $query->whereIn('party_id', $partyIds);
+        });
     }
 
 }

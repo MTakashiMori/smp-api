@@ -17,9 +17,6 @@ class UserSeeder extends Seeder
     {
         $mails = [
             'admin@mail.com',
-            'manager@mail.com',
-            'accounting@mail.com',
-            'sales@mail.com',
         ];
 
         for ($i = 0; $i <= 11; $i++) {

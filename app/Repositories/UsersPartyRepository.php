@@ -10,4 +10,9 @@ class UsersPartyRepository extends MainRepository
     {
         $this->model = $model;
     }
+
+    public function store($data)
+    {
+        return $this->model::create($data);
+    }
 }

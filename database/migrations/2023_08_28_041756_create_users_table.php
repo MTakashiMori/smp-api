@@ -15,11 +15,12 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('name')->comment('User name');
             $table->string('email')->unique()->comment('User email');
-            $table->string('cpf', 14)->unique()->comment('User cpf');
-            $table->string('address')->comment('User address');
+            $table->string('cpf', 14)->nullable()->unique()->comment('User cpf');
+            $table->string('address')->nullable()->comment('User address');
             $table->string('telephone')->comment('User telephone');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->comment('User password');
+            $table->foreignUuid('current_party_id')->nullable()->references('id')->on('parties')->nullOnDelete();
             $table->rememberToken();
             $table->timestamps();
         });

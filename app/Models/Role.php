@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Support\TenantContext;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Role extends MainModel
@@ -27,5 +29,25 @@ class Role extends MainModel
     public function users()
     {
         return $this->belongsToMany(User::class, 'role_users', 'role_id', 'user_id')->withPivot('party_id');
+    }
+
+    public function scopeForTenant(Builder $query, TenantContext $tenantContext): Builder
+    {
+        if (!$tenantContext->user()) {
+            return $query;
+        }
+
+        if ($tenantContext->isSuperAdmin()) {
+            return $query;
+        }
+
+        $partyIds = $tenantContext->partyId()
+            ? [$tenantContext->partyId()]
+            : $tenantContext->accessiblePartyIds();
+
+        return $query->where(function (Builder $query) use ($partyIds) {
+            $query->whereIn('party_id', $partyIds)
+                ->orWhereNull('party_id');
+        });
     }
 }

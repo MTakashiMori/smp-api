@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\PartyRepository;
+use App\Support\TenantContext;
 use Illuminate\Database\Eloquent\Collection;
 
 class PartyService extends MainService
@@ -24,7 +25,8 @@ class PartyService extends MainService
         FinancialService $financialService,
         FinancialCategoriesService $financialCategoriesService,
         UserPartyService $userPartyService,
-        AddressService $addressService
+        AddressService $addressService,
+        private TenantContext $tenantContext
     )
     {
         $this->repository = $repository;
@@ -37,6 +39,8 @@ class PartyService extends MainService
 
     public function store($data)
     {
+        $this->ensureSuperAdmin();
+
         $addressId = $this->addressService->store($data['address']);
 
         $data['address_id'] = $addressId->id;
@@ -56,8 +60,11 @@ class PartyService extends MainService
 
     public function assignUsersToParty($request): void
     {
+        $this->ensureSuperAdmin();
+
         foreach ($request['users'] as $userId) {
             $userAlreadyAssociatedWithParty = $this->userPartyService->checkUserAlreadyAssociated($userId, $request['party_id']);
+            
             if($userAlreadyAssociatedWithParty){
                 throw new \Exception("User already associated with this party", 422);
             }
@@ -70,9 +77,20 @@ class PartyService extends MainService
 
     public function getRelatedPartiesByUserId($request): Collection
     {
+        $userId = $this->tenantContext->isSuperAdmin()
+            ? ($request['user_id'] ?? $this->tenantContext->user()?->id)
+            : $this->tenantContext->user()?->id;
+
         return $this->userPartyService->index([
-            'user_id' => $request['user_id']
+            'user_id' => $userId
         ]);
+    }
+
+    private function ensureSuperAdmin(): void
+    {
+        if (!$this->tenantContext->isSuperAdmin()) {
+            throw new \Exception('Only Super Admin can manage parties globally', 403);
+        }
     }
 
 

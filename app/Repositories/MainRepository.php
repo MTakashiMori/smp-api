@@ -3,6 +3,8 @@
 namespace App\Repositories;
 
 use App\Models\MainModel;
+use App\Support\TenantContext;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -31,7 +33,7 @@ class MainRepository
             $relationship = $this->relationship;
         }
 
-        $query = $this->model->with($relationship ?: []);
+        $query = $this->tenantQuery()->with($relationship ?: []);
 
         if($request)
         {
@@ -49,7 +51,7 @@ class MainRepository
      */
     public function store($data)
     {
-        return $this->model::create($data);
+        return $this->model::create($this->dataWithTenant($data));
     }
 
     /**
@@ -58,7 +60,7 @@ class MainRepository
      */
     public function show($id)
     {
-        return $this->model::find($id);
+        return $this->tenantQuery()->find($id);
     }
 
     /**
@@ -67,13 +69,13 @@ class MainRepository
      */
     public function findById($id, $relationships = null)
     {
-        $query = $this->model->newQuery();
+        $query = $this->tenantQuery();
 
         if ($relationships) {
             $query->with($relationships);
         }
 
-        return $query->find($id)->first();
+        return $query->find(is_array($id) ? ($id['id'] ?? null) : $id);
     }
 
     /**
@@ -83,7 +85,7 @@ class MainRepository
      */
     public function update($id, $data)
     {
-        return $this->model->where('id', $id)->update($data);
+        return $this->tenantQuery()->where('id', $id)->update($this->dataWithTenant($data));
     }
 
     /**
@@ -92,7 +94,7 @@ class MainRepository
      */
     public function destroy($id)
     {
-       return $this->model->find($id)->delete();
+       return $this->tenantQuery()->findOrFail($id)->delete();
     }
 
     /**
@@ -102,6 +104,28 @@ class MainRepository
     public function runRawSql($sql)
     {
         return DB::select($sql);
+    }
+
+    protected function tenantQuery(): Builder
+    {
+        $query = $this->model->newQuery();
+        $tenantContext = app(TenantContext::class);
+
+        return $query->forTenant($tenantContext);
+    }
+
+    private function dataWithTenant(array $data): array
+    {
+        $tenantContext = app(TenantContext::class);
+
+        if (
+            $tenantContext->partyId()
+            && $this->model->getConnection()->getSchemaBuilder()->hasColumn($this->model->getTable(), 'party_id')
+        ) {
+            $data['party_id'] = $tenantContext->partyId();
+        }
+
+        return $data;
     }
 
 }

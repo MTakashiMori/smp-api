@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Support\TenantContext;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
@@ -51,5 +53,18 @@ class Party extends MainModel
     public function users()
     {
         return $this->hasManyThrough(User::class, UserParty::class, 'party_id', 'id', 'id', 'user_id');
+    }
+
+    public function scopeForTenant(Builder $query, TenantContext $tenantContext): Builder
+    {
+        if (!$tenantContext->user() || $tenantContext->isSuperAdmin()) {
+            return $query;
+        }
+
+        $partyIds = $tenantContext->partyId()
+            ? [$tenantContext->partyId()]
+            : $tenantContext->accessiblePartyIds();
+
+        return $query->whereIn('id', $partyIds);
     }
 }

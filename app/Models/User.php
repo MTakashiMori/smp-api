@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\TenantContext;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Laravel\Sanctum\HasApiTokens;
@@ -27,7 +28,10 @@ class User extends Authenticatable implements JWTSubject
     protected $fillable = [
         'name',
         'email',
+        'cpf',
+        'telephone',
         'password',
+        'current_party_id',
     ];
 
     /**
@@ -182,5 +186,24 @@ class User extends Authenticatable implements JWTSubject
     public function getUserRolesAttribute()
     {
         return $this->roleNames();
+    }
+
+    public function scopeForTenant(Builder $query, TenantContext $tenantContext): Builder
+    {
+        if (!$tenantContext->user()) {
+            return $query;
+        }
+
+        if ($tenantContext->isSuperAdmin()) {
+            return $query;
+        }
+
+        $partyIds = $tenantContext->partyId()
+            ? [$tenantContext->partyId()]
+            : $tenantContext->accessiblePartyIds();
+
+        return $query->whereHas('parties', function (Builder $query) use ($partyIds) {
+            $query->whereIn('parties.id', $partyIds);
+        });
     }
 }

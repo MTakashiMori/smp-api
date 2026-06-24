@@ -3,19 +3,24 @@
 namespace App\Services;
 
 use App\Constants\TransactionsStatusConstants;
+use App\Models\Financial;
+use App\Models\FinancialCategories;
+use App\Models\Transactions;
 use App\Repositories\TransactionsRepository;
+use App\Support\TenantContext;
 use Exception;
 
 class TransactionsService extends MainService
 {
 
-    public function __construct(TransactionsRepository $repository)
+    public function __construct(TransactionsRepository $repository, private TenantContext $tenantContext)
     {
         $this->repository = $repository;
     }
 
     public function store($data)
     {
+        $this->validateFinancialReferences($data);
         $data['status'] = TransactionsStatusConstants::ON_REVIEW;
 
         $transaction = $this->repository->store($data);
@@ -26,6 +31,7 @@ class TransactionsService extends MainService
 
     public function update($data, $id)
     {
+        $this->validateFinancialReferences($data);
         $transaction = $this->findTransaction($id);
 
         if ($transaction->status === TransactionsStatusConstants::APPROVED) {
@@ -55,25 +61,29 @@ class TransactionsService extends MainService
 
     public function getTransactionReport($request)
     {
+        Financial::query()
+            ->forTenant($this->tenantContext)
+            ->findOrFail($request['financial_id']);
 
-        $queryStart = ("
-            SELECT
-                SUM(case when T.value >= 0 then T.value else 0 end) as positive,
-                SUM(case when T.value < 0 then T.value else 0 end) as negative,
-                FC.name
-            FROM transactions AS T
-
-            LEFT JOIn financial_categories FC on T.financial_categories_id = FC.id
-
-            WHERE T.financial_id = " . $request['financial_id'] . " AND T.status =
-        " . " ");
-
-        $queryEnd = " GROUP BY T.financial_categories_id, FC.name";
+        $reportForStatus = function (string $status) use ($request) {
+            return Transactions::query()
+                ->forTenant($this->tenantContext)
+                ->selectRaw('
+                    SUM(CASE WHEN value >= 0 THEN value ELSE 0 END) as positive,
+                    SUM(CASE WHEN value < 0 THEN value ELSE 0 END) as negative,
+                    financial_categories.name
+                ')
+                ->leftJoin('financial_categories', 'transactions.financial_categories_id', '=', 'financial_categories.id')
+                ->where('transactions.financial_id', $request['financial_id'])
+                ->where('transactions.status', $status)
+                ->groupBy('transactions.financial_categories_id', 'financial_categories.name')
+                ->get();
+        };
 
         return [
-            'profit' => $this->repository->runRawSql($queryStart . "'" . TransactionsStatusConstants::APPROVED . "'" . $queryEnd),
-            'loss' => $this->repository->runRawSql($queryStart . "'" . TransactionsStatusConstants::REJECTED . "'" . $queryEnd),
-            'on_review' => $this->repository->runRawSql($queryStart . "'" . TransactionsStatusConstants::ON_REVIEW . "'" . $queryEnd),
+            'profit' => $reportForStatus(TransactionsStatusConstants::APPROVED),
+            'loss' => $reportForStatus(TransactionsStatusConstants::REJECTED),
+            'on_review' => $reportForStatus(TransactionsStatusConstants::ON_REVIEW),
         ];
     }
 
@@ -101,6 +111,18 @@ class TransactionsService extends MainService
         }
 
         return $transaction;
+    }
+
+    private function validateFinancialReferences(array $data): void
+    {
+        Financial::query()
+            ->forTenant($this->tenantContext)
+            ->findOrFail($data['financial_id']);
+
+        FinancialCategories::query()
+            ->forTenant($this->tenantContext)
+            ->where('financial_id', $data['financial_id'])
+            ->findOrFail($data['financial_categories_id']);
     }
 
     private function registerTransactionChange($transaction, string $action, array $oldData = [], array $newData = []): void

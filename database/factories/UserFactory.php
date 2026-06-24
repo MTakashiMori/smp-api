@@ -20,7 +20,11 @@ class UserFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'email' => 'mail@mail.com',
+            'email' => fake()->unique()->safeEmail(),
+            'cpf' => fake()->unique()->numerify('###.###.###-##'),
+            // 'address' => fake()->streetAddress(),
+            'address' => fake('pt_BR')->address(),
+            'telephone' => fake()->phoneNumber(),
             'email_verified_at' => now(),
 //            'password' => '5f4dcc3b5aa765d61d8327deb882cf99', // password
             'password' => Hash::make('password'), // password

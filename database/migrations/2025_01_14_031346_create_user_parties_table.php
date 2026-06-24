@@ -16,6 +16,7 @@ return new class extends Migration
 
             $table->foreignUuid('user_id')->references('id')->on('users');
             $table->foreignUuid('party_id')->references('id')->on('parties');
+            $table->unique(['user_id', 'party_id'], 'user_parties_user_party_unique');
 
             $table->softDeletes();
             $table->timestamps();

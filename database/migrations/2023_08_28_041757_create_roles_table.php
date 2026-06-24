@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('roles', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name')->comment('Role name');
+            $table->foreignUuid('party_id')->nullable()->references('id')->on('parties');
             $table->timestamps();
         });
     }

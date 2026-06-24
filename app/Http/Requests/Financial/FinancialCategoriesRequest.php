@@ -26,6 +26,7 @@ class FinancialCategoriesRequest extends FormRequest
     {
         return [
             'name' => 'required',
+            'financial_id' => 'required',
         ];
     }
 
@@ -38,6 +39,7 @@ class FinancialCategoriesRequest extends FormRequest
     {
         return [
             'name.required' => 'name is required',
+            'financial_id.required' => 'Financial book is required',
         ];
     }
 

@@ -45,7 +45,7 @@ Route::prefix('v1')->group(function () {
         Route::post('getUser', 'getUser');
     });
 
-    Route::middleware('auth:api')->group(function () {
+    Route::middleware(['auth:api', 'resolve.party'])->group(function () {
         Route::prefix('dashboard')->controller(\App\Http\Controllers\DashboardController::class)->group(function () {
             Route::get('super-admin', 'getSuperAdminDashboard')
                 ->middleware('permission:' . Acl::PERMISSION_DASHBOARD_SUPER_ADMIN_READ);
@@ -96,7 +96,6 @@ Route::prefix('v1')->group(function () {
         Route::resource('party', PartyController::class)->only(['destroy'])
             ->middleware('permission:' . Acl::PERMISSION_PARTY_DELETE);
 
-//        Route::post('party-menu/add-products', [PartyMenuController::class, 'addProducts']);
         Route::middleware('permission:' . Acl::PERMISSION_PARTY_MENU_READ)->group(function () {
             Route::resource('party-menu', PartyMenuController::class)->only(['index', 'show']);
         });

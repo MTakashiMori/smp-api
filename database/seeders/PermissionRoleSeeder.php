@@ -27,14 +27,5 @@ class PermissionRoleSeeder extends Seeder
             ]);
         }
 
-        $roles = Role::where('name', 'Seller')->first();
-
-        $permission = Permission::where('name', 'product.sell')->first();
-
-        PermissionRole::create([
-            'role_id' => $roles->id,
-            'permission_id' => $permission->id,
-        ]);
-
     }
 }
