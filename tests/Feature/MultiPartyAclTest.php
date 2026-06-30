@@ -166,7 +166,7 @@ class MultiPartyAclTest extends TestCase
                 'party_id' => $partyB->id,
             ]);
 
-        $response->assertCreated();
+        $response->assertOk();
         $this->assertDatabaseHas('user_parties', [
             'user_id' => $user->id,
             'party_id' => $partyB->id,

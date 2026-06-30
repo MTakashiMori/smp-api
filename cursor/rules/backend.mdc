@@ -1,0 +1,77 @@
+---
+description: Rules for Laravel API development
+alwaysApply: true
+---
+
+# API Development Rules
+
+## Project Context
+- This project uses Laravel as backend API.
+- Stability and backward compatibility are critical.
+- This project is actively under development.
+
+## Environment Rules
+- This project runs inside Docker containers.
+- Do not assume PHP, Composer, Node, or Artisan are available on host machine.
+- Prefer Docker commands when suggesting terminal commands.
+
+## Docker Environment
+- Backend runs inside Docker.
+- Laravel container name: smp_api
+- Database runs in Docker as well.
+- Database container name smp_db
+
+## Critical Docker Rules
+- This project ALWAYS runs inside Docker.
+- Never suggest Laravel commands directly on host machine.
+- Never suggest commands like: php artisan migrate
+- Always use Docker commands for Laravel operations.
+Examples:
+- Correct: docker exec -it smp_api php artisan migrate
+- Wrong: php artisan migrate
+
+## Architecture
+- This project uses Controllers, Services, and Repositories.
+- Controllers must remain thin.
+- Controllers should only orchestrate requests and responses.
+- Business logic belongs in Services.
+- Complex database queries belong in Repository classes.
+- Do not place business logic inside controllers.
+
+## Validation
+- Always use Form Requests for validation when creating or updating resources.
+- Validation rules must be explicit and readable.
+
+## Database Rules
+- Use Eloquent for simple CRUD operations.
+- Use Query Builder or raw SQL for complex joins and heavy queries.
+- Avoid N+1 problems.
+- Optimize queries for performance and readability.
+- While the project is under active development, prefer updating existing migrations instead of creating new ones when changes have not been deployed yet.
+
+## Query Analysis
+- Carefully analyze joins, where clauses, and groupings before changing SQL logic.
+- Preserve existing query behavior unless bug or optimization is confirmed.
+
+## Existing Code
+- Always analyze existing code before suggesting changes.
+- Prefer minimal changes over large refactors.
+- Preserve current flow unless explicitly asked to redesign.
+- Never remove existing business logic without understanding impact.
+
+## Debugging
+- Explain root cause before proposing fixes.
+- Prioritize safe production fixes.
+- Avoid unnecessary refactors while debugging.
+
+## Response Style
+- Prefer practical and production-safe solutions.
+- Avoid overengineering.
+- Suggest improvements only when they clearly add value.
+
+## Code Analysis
+- Always analyze existing code before suggesting changes.
+- Understand the full request flow before suggesting changes.
+- Prefer minimal changes over large refactors.
+- Preserve current flow unless explicitly asked to redesign.
+- Never remove existing business logic without understanding impact.

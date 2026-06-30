@@ -10,6 +10,7 @@ services:
 #    command: /bin/sh
     volumes:
       - .:/var/www/html/app
+      - ./coverage:/var/www/html/app/coverage
     entrypoint:  [
       "/bin/sh",
       "/var/www/html/app/entrypoint.sh"

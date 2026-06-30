@@ -35,6 +35,9 @@
         }
     },
     "scripts": {
+        "test:coverage": [
+            "APP_CONFIG_CACHE=/tmp/laravel-test-config.php XDEBUG_MODE=coverage php artisan test --coverage-html coverage"
+        ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
           "@php artisan package:discover --ansi"

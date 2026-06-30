@@ -32,7 +32,7 @@ class Party extends MainModel
 
     public function sponsors(): HasManyThrough
     {
-        return $this->hasManyThrough(Sponsor::class, PartySponsor::class);
+        return $this->hasManyThrough(Sponsor::class, PartySponsor::class, 'party_id', 'id', 'id', 'sponsor_id');
     }
 
     public function partyMenu()

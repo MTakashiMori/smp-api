@@ -1,4 +1,4 @@
-FROM alpine:3.18 as web
+FROM alpine:3.18 AS web
 
 # Install required system packages
 RUN apk add --no-cache nginx \
@@ -31,16 +31,12 @@ RUN apk add --no-cache php82 \
     php81-pdo_sqlite \
     php81-tokenizer \
     php81-pecl-redis \
+    php81-pecl-xdebug \
     autoconf  \
     make  \
     gcc \
     musl-dev \
     g++
-
-# Install Xdebug
-#RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS \
-#    && pecl install xdebug \
-#    && docker-php-ext-enable xdebug
 
 RUN php -v
 
@@ -49,7 +45,7 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # Configure Nginx
 COPY docker-files/nginx.conf /etc/nginx/nginx.conf
-COPY docker-files/php.ini /etc/php/php.ini
+COPY docker-files/php.ini /etc/php81/php.ini
 
 
 # Expose the ports
